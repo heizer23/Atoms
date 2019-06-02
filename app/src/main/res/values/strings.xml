@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quizzer</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_lektionen">Lektionen</string>
+    <string name="action_info">Info</string>
+    <string name="action_extra">Do Stuff</string>
+    <string name="action_sql">SQL</string>
+    <string name="action_showtiming">Next</string>
+    <string name="PathCrashReport">/sdcard/quizzer/debug/crash</string>
+    <string name="DatabaseName">QuizzerDb.sqlite</string>
+
+
+    <string name="menu_overview">Overview</string>
+
+
+        <string name="code_geschichte">GM</string>
+
+
+        <string name="infoTextInfo">Tappe den Text um zu Wikipedia zu wechseln</string>
+        <string name="hintInfo">Information</string>
+        <string name="hintWiki">Hyperlink</string>
+        <string name="hintOrt">Ort</string>
+        <string name="hintDatum">Datum</string>
+        <string name="hintItem">Item</string>
+        <string name="Cancel">Cancel</string>
+        <string name="OK">OK</string>
+        <string name="placeHolder">TEMP</string>
+        <string name="readDatDialog">Bitte Dateinamen eingeben:</string>
+        <string name="dialogInfoTextActTitle">Schlagwort für Wikipedia</string>
+
+        <!-- Allgemeine MenuStrings -->
+        <string name="menu_fragen">Fragen</string>
+
+        <!-- AlertDialogString -->
+        <string name="text_titleLektion">%1d Fragen bearbeiten</string>
+        <string name="RB_delete">Löschen</string>
+        <string name="RB_move">Verschieben</string>
+        <string name="RB_rename">Lektion umbenennen</string>
+        <string name="RB_newTable">Lektion einlesen</string>
+        <string name="RB_reset">Fragen zurücksetzten</string>
+        <string name="RB_Umbenennen">Umbenennen</string>
+
+        <!-- Frage -->
+        <string name="text_zumerstenmal">Diese Frage hast du zum ersten Mal gesehen!</string>
+        <string name="text_zwischenzeit">Zwischenzeit %1$d %2$s</string>
+        <string name="text_jahr">Jahre</string>
+        <string name="text_monat">Monate</string>
+        <string name="text_tag">Tage</string>
+        <string name="text_stunde">Stunden</string>
+        <string name="text_minute">Minuten</string>
+        <string name="text_sekunden">Sekunden</string>
+
+        <!-- OverviewTableAct -->
+        <string name="name_actFrageliste">Aktuelle Fragenliste</string>
+        <string name="name_button_all">Alle</string>
+
+        <!-- Settings -->
+        <string name="text_vorschub">Vors</string>
+        <string name="text_vorschub_lin">Linear</string>
+        <string name="text_vorschub_exp">Exponentiell</string>
+        <string name="text_vorschub_vorschau">Vorschau</string>
+        <string name="text_neuefragen">Neue Fragen</string>
+        <string name="text_neuefragen_min_uwf">UWF-Grenze</string>
+        <string name="text_neuefragen_pos_neue">Positionen auswählen</string>
+        <string name="text_dnd">Drag and Drop</string>
+        <string name="text_dnd_freq">Anzahl der Runden bis zum DaD</string>
+        <string name="text_dnd_anz">Anzahl der Fragen beim DaD</string>
+        <string name="text_mc_versuche">Nötige Eingrenzungen</string>
+        <string name="text_mc_versuche_top2">Die ersten zwei</string>
+        <string name="text_mc_versuche_bottom2">Die letzten zwei</string>
+        <string name="text_mc_versuche_all3">Alle drei</string>
+
+        <!-- Statiistics -->
+        <string name="text_dialog_title">Geplottete Wert-Level</string>
+        <string name="text_dialog_wert">Wert = </string>
+        <string name="text_menu">Graphen anpassen</string>
+
+        <!-- temp -->
+        <string name="hello">Hello World, Todo!</string>
+        <string name="no_todos">Currently there are no Todo items maintained</string>
+        <string name="menu_insert">Add Item</string>
+        <string name="menu_goto">Go to Item</string>
+        <string name="menu_delete">Delete Item</string>
+        <string name="menu_connect">Connect Item</string>
+
+        <!-- EditFragen -->
+        <string name="todo_edit_item_hint">Item</string>
+        <string name="todo_edit_datum_hint">Datum:</string>
+        <string name="todo_edit_info_hint">Info</string>
+        <string name="todo_edit_ort_hint">Ort</string>
+        <string name="todo_edit_uwf">UWF:</string>
+        <string name="todo_edit_uwf_hint">0</string>
+        <string name="todo_edit_last">Last:</string>
+        <string name="todo_edit_last_hint">10000</string>
+        <string name="todo_edit_counter">Counter:</string>
+        <string name="todo_edit_last_date">Zuletzt:</string>
+        <string name="todo_edit_confirm">Confirm</string>
+        <string name="todo_edit_toggle">Toggle</string>
+        <string name="todo_edit_back">Zurück</string>
+        <string name="dummy_content">DUMMY\nCONTENT</string>
+        <string name="dummy_button">Dummy Button</string>
+        <string name="title_activity_set_dates">SetDates</string>
+
+    </resources>

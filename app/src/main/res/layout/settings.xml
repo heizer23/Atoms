@@ -1,0 +1,326 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="14sp"
+        android:paddingRight="15sp" >
+
+        <LinearLayout
+            android:id="@+id/linlay_setting_vorschub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_vorschub" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="14sp" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="14sp"
+                    android:paddingTop="10sp"
+                    android:text="@string/text_vorschub_lin"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/textViewVorschLin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="14sp"
+                    android:paddingTop="10sp"
+                    android:text="0"
+                    android:typeface="serif" />
+            </RelativeLayout>
+
+            <SeekBar
+                android:id="@+id/sb_vorschub_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="14sp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="14sp"
+                    android:paddingTop="10sp"
+                    android:text="@string/text_vorschub_exp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/textViewvorschExp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="14sp"
+                    android:paddingTop="10sp"
+                    android:text="0"
+                    android:typeface="serif" />
+            </RelativeLayout>
+
+            <SeekBar
+                android:id="@+id/sb_vorschub_exp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/butt_setting_vorsch"
+                android:layout_width="269dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:text="@string/text_vorschub_vorschau"
+                android:typeface="serif" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_neue_frage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="15sp"
+                android:text="@string/text_neuefragen" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="14sp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="14sp"
+                    android:paddingTop="10sp"
+                    android:text="@string/text_neuefragen_min_uwf"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/tvVorschubGrenze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="14sp"
+                    android:paddingTop="10sp"
+                    android:text="0"
+                    android:typeface="serif" />
+            </RelativeLayout>
+
+            <SeekBar
+                android:id="@+id/sb_vorschubgrenze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/butt_setting_poswahl"
+                android:layout_width="269dp"
+                android:layout_height="40dp"
+                android:text="@string/text_neuefragen_pos_neue"
+                android:typeface="serif" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15sp"
+            android:text="@string/text_dnd" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="14sp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="14sp"
+                android:paddingTop="10sp"
+                android:text="@string/text_dnd_anz"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/textViewdndanz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="14sp"
+                android:paddingTop="10sp"
+                android:text="0"
+                android:typeface="serif" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_sort_anz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="14sp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="14sp"
+                android:paddingTop="10sp"
+                android:text="@string/text_dnd_freq"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/textViewdndfreq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="14sp"
+                android:paddingTop="10sp"
+                android:text="0"
+                android:typeface="serif" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_sort_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15sp"
+            android:text="@string/text_mc_versuche" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="14sp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="14sp"
+                android:paddingTop="10sp"
+                android:text="@string/text_mc_versuche_top2"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/textViewmcvers2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="14sp"
+                android:paddingTop="10sp"
+                android:text="0"
+                android:typeface="serif" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_versuche_top2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="14sp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="14sp"
+                android:paddingTop="10sp"
+                android:text="@string/text_mc_versuche_bottom2"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/textViewmcversbo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingRight="14sp"
+                android:paddingTop="10sp"
+                android:text="0"
+                android:typeface="serif" />
+        </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_versuche_bottom2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" /><RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="14sp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="14sp"
+            android:paddingTop="10sp"
+            android:text="@string/text_mc_versuche_all3"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/textViewmcverall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="14sp"
+            android:paddingTop="10sp"
+            android:text="0"
+            android:typeface="serif" />
+    </RelativeLayout>
+
+        <SeekBar
+            android:id="@+id/sb_versuche_all3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</ScrollView>

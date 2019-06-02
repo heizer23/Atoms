@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Score"
+            android:layout_weight="1"
+            android:editable="true"
+            android:clickable="true"
+            android:focusable="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Counter"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Ratio"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Next"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=" "
+            android:id="@+id/textView1"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=" "
+            android:id="@+id/textView2"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=" "
+            android:id="@+id/textView3"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=" "
+            android:id="@+id/textView4"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item "
+        android:id="@+id/etItem"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Answer "
+        android:id="@+id/etAnswer"
+        />
+
+</LinearLayout>

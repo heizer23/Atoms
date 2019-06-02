@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="my.projects.lerner2.app.Quizzer$PlaceholderFragment">
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="dvdsvv"
+        android:layout_above="@+id/linlay1"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/linlay1">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="leer"
+            android:id="@+id/button1"
+            />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="leer"
+            android:id="@+id/button2"
+            />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="leer"
+            android:id="@+id/button3"
+            />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="leer"
+            android:id="@+id/button4"
+            />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="leer"
+            android:id="@+id/button5"
+            />
+</LinearLayout>
+
+</RelativeLayout>

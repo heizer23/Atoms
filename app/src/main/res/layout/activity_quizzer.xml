@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="20dp"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="my.projects.lerner2.app.Quizzer"
+    >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        />
+
+   <LinearLayout
+    android:id="@+id/linlay_info_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+       android:layout_below="@+id/view1">
+
+    <TextView
+        android:id="@+id/tv_o1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_vorschub"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_o2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_vorschub"
+        android:layout_weight="1"/>
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linlay_info_bot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/linlay_info_top">
+
+        <TextView
+            android:id="@+id/tv_u1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_u2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_u3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_u4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_u5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_u6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_vorschub"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/linlay_info_bot"/>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:id="@+id/container"
+        android:layout_below="@+id/view2"
+        >
+
+    </FrameLayout>
+
+
+
+</RelativeLayout>

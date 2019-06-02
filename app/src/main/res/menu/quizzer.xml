@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="my.projects.lerner2.app.Quizzer" >
+    
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_lections"
+        android:title="@string/action_lektionen"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_info"
+        android:title="@string/action_info"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_showtiming"
+        android:title="@string/action_showtiming"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_extra"
+        android:title="@string/action_extra"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_sqlactiv"
+        android:title="@string/action_sql"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+</menu>
