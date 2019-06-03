@@ -100,13 +100,13 @@ public class FragMC extends Fragment implements View.OnClickListener{
 
         tvFrage.setText(logic.neueFrage(fragenId));
 
-        if( logic.getVorschub()< MySingleton.getInstance().getVorschubGrenze()) {
-            layRechts.setVisibility(View.GONE);
-            buttTexts = logic.getButtonTextsMC4();
-        }else{
+//        if( logic.getVorschub()< MySingleton.getInstance().getVorschubGrenze()) {
+//            layRechts.setVisibility(View.GONE);
+//            buttTexts = logic.getButtonTextsMC4();
+//        }else{
             layRechts.setVisibility(View.VISIBLE);
             buttTexts = logic.getButtonTexts();
-        }
+  //      }
 
         for (int i = 0; i < buttTexts.length; i++) {
             bChoice[i].setText(buttTexts[i]);

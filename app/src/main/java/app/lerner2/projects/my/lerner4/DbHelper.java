@@ -116,78 +116,8 @@ public class DbHelper extends DatabaseBase {
         return data;
     }
 
-    public void arrangeQuestions(int countIn, int nextDifferenceIn, int nextIn){
+    public int saveResultsAlt(int id, double score, long next, int counter){
 
-
-        final int count = countIn;
-        final int nextDifference = nextDifferenceIn;
-        final int next = nextIn;
-
-        Runnable runnable = new Runnable() {
-            public void run() {
-
-                open();
-
-                //aktiviert fragen wenn der unterschied zwischen erstem Next und letztem Netx zu groß wird
-                // und wenn weniger als 5 fragen aktiv sind
-                if(nextDifference > count+5 || count <6){
-                    Log.i("DbBase getPoints", "neue Frage");
-                    String sqlSetBack = "update Events set Next = "+(next-1) +" WHERE _id IN (SELECT _id FROM Events WHERE Next <= 0 ORDER BY Counter desc LIMIT 1)";
-                    mySQLDB.execSQL(sqlSetBack);
-
-                    // Counter wird stark negativ gesetzt, um neue Fragen zu kennzeichnen. Das wird hier wieder aufgehoben
-                    sqlSetBack = "update Events set Counter = 0 WHERE _id IN (SELECT _id FROM Events WHERE Next > 0 and Counter < 0)";
-                    mySQLDB.execSQL(sqlSetBack);
-
-                    MySingleton.getInstance().addAktiviert(1);
-
-                    //sind die fragen gehäuft...dann werden die mit niedrigem score inaktiv
-                }else if(nextDifference< 30&& count>38){
-                    int anzDifference = count-30;
-                    String sqlSetBack = "update Events set Next = -1 WHERE _id IN (SELECT _id FROM Events WHERE Next > 0 ORDER BY Score asc LIMIT 1)";
-                    mySQLDB.execSQL(sqlSetBack);
-                    MySingleton.getInstance().addAktiviert(-1);
-                }
-                MySingleton.getInstance().maxDifference = nextDifference;
-                MySingleton.getInstance().setNext(next);
-
-
-
-                // die ersten einträge aufsteigend nummerieren
-                String whereSQL = "next <=" + (next + 30) +  " AND next > 0";
-                String[] colIdNext = {"_id", "next"};
-                Cursor c = mySQLDB.query(TABLE_EVENTS, colIdNext, whereSQL, null, null, null, "Next", "30");
-                int countInner = c.getCount();
-
-                int index = 0;
-                int[] dataInt = new int[countInner];
-                if(countInner<30){
-                    int tet = 1;
-                }
-                while(c.moveToNext()) {
-
-                    dataInt[index] = c.getInt(0);
-                    index++;
-                }
-                String sqlNummerieren;
-                for (int i = 0 ; i < countInner; i++){
-                    sqlNummerieren = "update Events set Next = " + (next  + i ) + "  WHERE _id = " + dataInt[i];
-                    mySQLDB.execSQL(sqlNummerieren);
-
-
-                }
-                close();
-
-
-            }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
-
-    }
-
-    public int saveResultsAlt(int id, double score, int next, int counter){
-        open();
 
         Time now = new Time();
         now.setToNow();
@@ -209,7 +139,7 @@ public class DbHelper extends DatabaseBase {
 
 
 
-    public void saveResults(int id, double score, int deltaZeit, int counter){
+    public void saveResults(int id, double score, long vorschub, int counter){
       open();
 
         Time now = new Time();
@@ -219,10 +149,12 @@ public class DbHelper extends DatabaseBase {
         ContentValues values = new ContentValues();
         values.put("fragenId", id);
         values.put("Score", score);
-        values.put("nextTime", longTemp+(deltaZeit*1000));
+        values.put("nextTime", longTemp+(vorschub));
         values.put("lastTime", longTemp);
       //  values.put("counter", counter);
-        addRunde(values);
+        long nextTime = longTemp+(vorschub*1000);
+        saveResultsAlt(id, score, nextTime, counter);
+      //  addRunde(values);
     }
 
     public void putInQuestions(){
@@ -240,9 +172,15 @@ public class DbHelper extends DatabaseBase {
 
 
     public int nextFrage(){
+        Time now = new Time();
+        now.setToNow();
+        long longTemp = now.toMillis(true);
+
         open();
-        Cursor cursor = mySQLDB.rawQuery("Select fragenID from runden order by nextTime asc", null);
-        int iFragenId = cursor.getColumnIndex("fragenId");
+
+        String sqlString = String.format("Select _id from Events where next < %d order by next desc", longTemp);
+        Cursor cursor = mySQLDB.rawQuery(sqlString, null);
+        int iFragenId = cursor.getColumnIndex("_id");
         cursor.moveToFirst();
         int fragenId = cursor.getInt(iFragenId);
         close();

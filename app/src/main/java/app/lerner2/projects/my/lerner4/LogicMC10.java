@@ -22,7 +22,7 @@ public class LogicMC10{
     private String item;
     private String ort;
     private double score;
-    private int next;
+    private long next;
     private String[] buttenTexts = new String[10];
     private int id;
     private DbHelper dbHelper;
@@ -47,7 +47,7 @@ public class LogicMC10{
         id = Integer.parseInt(values[0]);
         item = values[1];
         datum = Integer.parseInt(values[2]);
-        next = Integer.parseInt(values[3]);
+        next = Long.parseLong(values[3]);
         score = Double.parseDouble(values[4]);
         counter = Integer.parseInt(values[5]);
         ort= values[6];
@@ -165,11 +165,11 @@ public class LogicMC10{
             if(guess[0]>datum){
                 eingrenz_richtig[0] = 1;
                 eingrenz_richtig[1] = 2;
-                score = score -3;
+                score = 0;
             }else if(guess[1]<datum){
                 eingrenz_richtig[0] = 1;
                 eingrenz_richtig[1] = 1;
-                score = score -3;
+                score = 0;
             }else{
                 eingrenz_richtig[0] = 0;
                 eingrenz_richtig[1] = 0;
@@ -180,11 +180,11 @@ public class LogicMC10{
             if(guess[0]>datum){
                 eingrenz_richtig[0] = 1;
                 eingrenz_richtig[1] = 2;
-                score = score -3;
+                score = 0;
             }else if(guess[0]<datum){
                 eingrenz_richtig[0] = 1;
                 eingrenz_richtig[1] = 1;
-                score = score -3;
+                score = 0;
             }else{
                 eingrenz_richtig[0] = 1;
                 eingrenz_richtig[1] = 0;
@@ -203,17 +203,17 @@ public class LogicMC10{
         return eingrenz_richtig;
     }
 
-    public int getVorschub(){
+    public long getVorschub(){
         double verlaufFaktor = Math.round(score/counter*10)/10.0;
         if(verlaufFaktor<0.1)verlaufFaktor=0.1;
         //todo an Settings anpassen
-        return 2+(int)(Math.pow(verlaufFaktor, 3)*(score*20+ Math.pow(2, score)));
+        return 2000*(int)(Math.pow(verlaufFaktor, 3)*(score*20+ Math.pow(2, score)));
     }
 
     public double[] calcResults(double save){
 
         int position;
-        int vorschub = getVorschub();
+        long vorschub = getVorschub();
         if(score<0)score = 0;
 
         double verlaufFaktor = Math.round(score/counter*10)/10.0;
@@ -224,7 +224,7 @@ public class LogicMC10{
         position = 1;
 
         if(save == 1){
-            dbHelper.saveResults(id, score, next, counter);
+            dbHelper.saveResults(id, score, vorschub, counter);
         }
         else{
             position = 1;
