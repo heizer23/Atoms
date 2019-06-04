@@ -148,15 +148,18 @@ public class FragMC extends Fragment implements View.OnClickListener{
             mCallback.onUpdate(infoStrings);
 
             String infoText =  MySingleton.getInstance().vorschubText;
-            tvInfo.setText(infoText);
 
-            tvInfo.setBackgroundColor(color[(int)eingrenzRight[1]]);
+
+           // tvInfo.setBackgroundColor(color[(int)eingrenzRight[1]]);
             if (eingrenzRight[0] == 0 ) {      // Eingrenzungsantwort
+                tvInfo.setText("Korrekt ");
                 setUpButtonsMC();
             } else if (eingrenzRight[1] == 0) { //Antwort richtig
                 neueFrage();
+                tvInfo.setText("Korrekt " + sButtText);
             } else {                          //Antwort falsch
                 neueFrage();
+                tvInfo.setText("Nicht " + sButtText +  " Delta " + eingrenzRight[1]);
             }
             ;
         }

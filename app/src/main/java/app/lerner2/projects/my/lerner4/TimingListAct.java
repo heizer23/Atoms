@@ -10,7 +10,7 @@ public class TimingListAct extends ListActivity {
 
     private Resources res;
     private DbHelper dbHelper;
-    private String[] from = {"lastTime","Item", "nextTime"};
+    private String[] from = {"_id","Item", "Next"};
     private int[] to = new int[]{R.id.label, R.id.label2, R.id.label3};
     private TimingListAdapter adapter;
 
@@ -31,7 +31,7 @@ public class TimingListAct extends ListActivity {
 
         dbHelper = new DbHelper(this,this);
         dbHelper.open();
-        Cursor cursor = dbHelper.getJointCursor("nextTime asc");
+        Cursor cursor = dbHelper.getNextEvents();
         adapter = new TimingListAdapter(this, R.layout.todo_row, cursor,
                 from, to);
         setListAdapter(adapter);

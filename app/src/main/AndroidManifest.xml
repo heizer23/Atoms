@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.lerner2.projects.my.lerner4">
 
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+    <!--<uses-sdk-->
+        <!--android:minSdkVersion="11"-->
+        <!--android:targetSdkVersion="19" />-->
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
     </uses-permission>

@@ -196,7 +196,6 @@ public class DbHelper extends DatabaseBase {
         close();
     }
 
-
     public void update(int id, ContentValues values) {
         ourHelper = new DbHelper(ourContext);
         mySQLDB = ourHelper.getWritableDatabase();
@@ -275,11 +274,6 @@ public class DbHelper extends DatabaseBase {
         close();
     }
 
-    public void addRunde( ContentValues values){
-        open();
-        addItem("runden", values);
-        close();
-    }
 
     public int[] getLinks(int erst){
 
@@ -316,8 +310,18 @@ public class DbHelper extends DatabaseBase {
         return dataResult;
     }
 
+    public Cursor getNextEvents(){
+        Time now = new Time();
+        now.setToNow();
+        long longTemp = now.toMillis(true);
+        String sqlString = String.format("Select _id, Item, Next from Events where next > %d order by next asc", longTemp);
+        Cursor cursor = mySQLDB.rawQuery(sqlString, null);
+        return cursor;
+
+    }
+
     public Cursor getJointCursor(String orderBy){
-        String selectQuery = "SELECT * FROM Events JOIN runden ON  Events.[_id] = runden.fragenId order by " + orderBy ;
+        String selectQuery = "SELECT * FROM Events  order by " + orderBy ;
         Cursor cursor = mySQLDB.rawQuery(selectQuery, null);
         return cursor;
     }

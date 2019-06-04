@@ -116,38 +116,8 @@ public class LogicMC10{
         return buttTextsSorted;
     }
 
-    public String[] getButtonTextsMC4() {
-        eingrenzungen=1;
-        String[] buttonTexts = new String[5];
-        Random r = new Random();
-        int nearestDate = -1;
-        int positiveDifferenz;
-        int positiveDifferenzLast = 10000000;
-        int startDate = 2000;
-        int aktuellesJahr = Calendar.getInstance().get(Calendar.YEAR);
-        rahmen = (int)((aktuellesJahr-datum)*0.2);
-        if(rahmen<5)rahmen=10;
-        int random  = r.nextInt(rahmen);
-        startDate = datum + random;
-        MySingleton.getInstance().solution = "\n Start: " + startDate +  ", rahmen:" + rahmen;
-        for(int i = 0; i< buttonTexts.length; i++){
-            int abstand = i*rahmen/5+1;
-
-            random  = abstand + r.nextInt(1+rahmen/5);
-            random = startDate- random;
-            buttonTexts[i] = "" + random;
-            positiveDifferenz = (datum- random)*(datum- random);
-            if(positiveDifferenz<positiveDifferenzLast){
-                positiveDifferenzLast = positiveDifferenz;
-                nearestDate = i;
-            }
-        }
-        buttonTexts[nearestDate] = ""+datum;
-        return buttonTexts;
-    }
-
     public double[] checkAnswer(String answer) {
-        double[] eingrenz_richtig = new double[7]; // eingrenzung[0] ---- 0 richtig, -1 zu früh, 1 zu spät
+        double[] eingrenz_richtig = new double[7]; // eingrenzung[1] ---- 0 richtig, -1 zu früh, 1 zu spät
         double[] infos;
         eingrenzungen++;
         eingrenz_richtig[0] = 0;
@@ -164,30 +134,30 @@ public class LogicMC10{
 
             if(guess[0]>datum){
                 eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = 2;
+                eingrenz_richtig[1] = guess[0]-datum;
                 score = 0;
             }else if(guess[1]<datum){
                 eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = 1;
+                eingrenz_richtig[1] = guess[0]-datum;
                 score = 0;
             }else{
                 eingrenz_richtig[0] = 0;
-                eingrenz_richtig[1] = 0;
+                eingrenz_richtig[1] = guess[0]-datum;
                 if(rahmen==100)score = score +1.0;
                 rahmen = rahmen / 10;
             }
         }else{      // Final
             if(guess[0]>datum){
                 eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = 2;
+                eingrenz_richtig[1] = guess[0]-datum;
                 score = 0;
             }else if(guess[0]<datum){
                 eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = 1;
+                eingrenz_richtig[1] = guess[0]-datum;
                 score = 0;
             }else{
                 eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = 0;
+                eingrenz_richtig[1] = guess[0]-datum;
                 score = score +1.0;
             }
         }
@@ -203,18 +173,13 @@ public class LogicMC10{
         return eingrenz_richtig;
     }
 
-    public long getVorschub(){
-        double verlaufFaktor = Math.round(score/counter*10)/10.0;
-        if(verlaufFaktor<0.1)verlaufFaktor=0.1;
-        //todo an Settings anpassen
-        return 2000*(int)(Math.pow(verlaufFaktor, 3)*(score*20+ Math.pow(2, score)));
-    }
+
 
     public double[] calcResults(double save){
-
+        MathStuff Ms = new MathStuff();
         int position;
-        long vorschub = getVorschub();
-        if(score<0)score = 0;
+        long vorschub =  Ms.getVorschub(score, counter);
+
 
         double verlaufFaktor = Math.round(score/counter*10)/10.0;
 
@@ -224,6 +189,7 @@ public class LogicMC10{
         position = 1;
 
         if(save == 1){
+            if(score<0)score = 0;
             dbHelper.saveResults(id, score, vorschub, counter);
         }
         else{

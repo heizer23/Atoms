@@ -76,24 +76,33 @@ public class TimingListAdapter extends SimpleCursorAdapter {
         choices[2] = cursor.getColumnIndex(from[2]);
 
         String holderLeft = "";
+        holder.text1.setText(cursor.getString(choices[0]));
         holder.text2.setText(cursor.getString(choices[1]));
 
         holder.text3.setText(cursor.getString(choices[2]));
-        if(from[0].equals("lastTime") || from[0].equals("nextTime")){
-            long dv = cursor.getLong(choices[0]) ;
-            Date df = new Date(dv);
-            holder.text1.setText(getDifference(dv));
-        }else{
-            holder.text1.setText(cursor.getString(choices[2]));
-        }
 
-        if(from[2].equals("lastTime") || from[2].equals("nextTime")){
-            long dv = cursor.getLong(choices[2]) ;
-            Date df = new Date(dv);
-            holder.text3.setText(getDifference(dv));
-        }else{
-            holder.text3.setText(cursor.getString(choices[0]));
-        }
+        int sec;
+        int min;
+        int hours;
+        int days;
+        long nextTime = Long.parseLong(cursor.getString(choices[2]));
+        MathStuff Ms = new MathStuff();
+        holder.text3.setText(Ms.getTimings(nextTime));
+//        if(from[0].equals("lastTime") || from[0].equals("nextTime")){
+//            long dv = cursor.getLong(choices[0]) ;
+//            Date df = new Date(dv);
+//            holder.text1.setText(getDifference(dv));
+//        }else{
+//            holder.text1.setText(cursor.getString(choices[2]));
+//        }
+//
+//        if(from[2].equals("lastTime") || from[2].equals("nextTime")){
+//            long dv = cursor.getLong(choices[2]) ;
+//            Date df = new Date(dv);
+//            holder.text3.setText(getDifference(dv));
+//        }else{
+//            holder.text3.setText(cursor.getString(choices[0]));
+//        }
         return (convertView);
     }
 
