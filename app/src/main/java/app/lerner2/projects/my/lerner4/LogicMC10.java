@@ -9,9 +9,7 @@ import android.text.format.Time;
 import java.util.Calendar;
 import java.util.Random;
 
-/**
- * Created by Hummel on 08.08.14.
- */
+
 public class LogicMC10{
 
     private Activity act;
@@ -38,12 +36,11 @@ public class LogicMC10{
     public String neueFrage(int fragenId){
         MySingleton.getInstance().solution = ""+datum;
 
-        String[] fields = {"_id", "Item", "Datum", "Next", "Score", "Counter", "Ort"};
-        dbHelper.open();
-        Cursor c = dbHelper.getCursor("_id = "+ fragenId, null);
 
-        String[] values = dbHelper.getFirstOfCursor(c,fields);
+        dbHelper.open();
+        String[] values = dbHelper.getFrageInfos(fragenId);
         dbHelper.close();
+
         id = Integer.parseInt(values[0]);
         item = values[1];
         datum = Integer.parseInt(values[2]);

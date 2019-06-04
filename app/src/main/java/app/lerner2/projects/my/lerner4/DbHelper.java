@@ -320,6 +320,13 @@ public class DbHelper extends DatabaseBase {
 
     }
 
+    public String[] getFrageInfos(int fragenId){
+        String[] fragenFelder = {"_id", "Item", "Datum", "Next", "Score", "Counter", "Ort"};
+        Cursor c = mySQLDB.query(TABLE_EVENTS, columnsLektion, "_id = "+ fragenId, null,
+                null, null, null);
+        String[] results = getFirstOfCursor(c, fragenFelder);
+        return results;
+    }
 
 
 }
