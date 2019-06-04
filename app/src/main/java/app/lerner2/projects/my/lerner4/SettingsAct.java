@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -66,13 +68,13 @@ public class SettingsAct extends Activity implements OnClickListener,
         sbVorschubLin = (SeekBar) findViewById(R.id.sb_vorschub_in);
         sbVorschubLin.setOnSeekBarChangeListener(this);
         sbVorschubLin.setProgress(MySingleton.getInstance().getVorschubLin());
-        sbVorschubLin.setMax(20);
+        sbVorschubLin.setMax(100);
         tvVorschubLin.setText("" + sbVorschubLin.getProgress());
         sbVorschubExp = (SeekBar) findViewById(R.id.sb_vorschub_exp);
         tvVorschubExp = (TextView) findViewById(R.id.textViewvorschExp);
         sbVorschubExp.setOnSeekBarChangeListener(this);
         sbVorschubExp.setProgress(MySingleton.getInstance().getVorschubExp());
-        sbVorschubExp.setMax(20);
+        sbVorschubExp.setMax(100);
         tvVorschubExp.setText("" + sbVorschubExp.getProgress());
         sbVorschubGrenze = (SeekBar) findViewById(R.id.sb_vorschubgrenze);
         tvVorschubGrenze = (TextView) findViewById(R.id.tvVorschubGrenze);
@@ -98,7 +100,7 @@ public class SettingsAct extends Activity implements OnClickListener,
         tvMcBottom2 = (TextView) findViewById(R.id.textViewmcversbo2);
         sbMcBottom2.setOnSeekBarChangeListener(this);
         //sbMcBottom2.setProgress(MySingleton.getInstance().getZzzMCbottom2());
-        sbMcBottom2.setMax(20);
+        sbMcBottom2.setMax(200);
         tvMcBottom2.setText("" + sbMcBottom2.getProgress());
         sbMcTop2.setOnSeekBarChangeListener(this);
         //sbMcTop2.setProgress(MySingleton.getInstance().getZzzMCTop2());
@@ -187,13 +189,21 @@ public class SettingsAct extends Activity implements OnClickListener,
 
     private void setTvVorschau() {
         String out = "";
-        int lin = MySingleton.getInstance().getVorschubLin();
-        int exp = MySingleton.getInstance().getVorschubExp();
+        MathStuff Ms = new MathStuff();
+        String timingString;
+        Time now = new Time();
+        now.setToNow();
+        long longNow = now.toMillis(true)/1000;
+        long hundredYearsInSecs = longNow+ 60*60*24*30*12*50;
         for (int i = 0; i < 40; i++) {
-            double uwf = i * 0.5;
-            out = out + "\n     UWF    " + uwf + ": (linear) " + lin * uwf
-                    + " + (exp) " + (int) Math.pow(1 + 0.1 * exp, uwf) + " = "
-                    + (int) ((lin * uwf + Math.pow(1 + 0.1 * exp, uwf)));
+            int score = i;
+            long nextTime =longNow + Ms.getVorschub(score, 1);
+            if(nextTime > hundredYearsInSecs){
+                i=41;
+            }else{
+                timingString = Ms.getTimings(nextTime);
+                out = out + "\n  Score:" + score + ": " + timingString;
+            }
         }
         tvVorschau.setText(out);
     }

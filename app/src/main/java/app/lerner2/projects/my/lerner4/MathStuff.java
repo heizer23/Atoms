@@ -1,6 +1,7 @@
 package app.lerner2.projects.my.lerner4;
 
 import android.text.format.Time;
+import android.util.Log;
 
 public class MathStuff {
 
@@ -11,20 +12,30 @@ public class MathStuff {
     public String getTimings(long nextTime){
         Time now = new Time();
         now.setToNow();
-        long longNow = now.toMillis(true);
-        long diffSec = (nextTime- longNow)/1000;
+        long longNow = now.toMillis(true)/1000;
+        long diffSec = (nextTime- longNow);
 
-        int days = (int)diffSec / (60*60*24);
+        long years = diffSec / (12*30*60*60*24);
+        diffSec = diffSec % (12*30*60*60*24);
+        long month = diffSec / (30*60*60*24);
+        diffSec = diffSec % (30*60*60*24);
+        long days = diffSec / (60*60*24);
         diffSec = diffSec % (60*60*24);
-        int hours = (int)diffSec / (60*60);
+        long hours = diffSec / (60*60);
         diffSec = diffSec % (60*60);
-        int mins = (int)diffSec / 60;
+        long mins = diffSec / 60;
         diffSec = diffSec % 60;
-        int secs = (int)diffSec;
+        long secs = diffSec;
 
         String timeID ="t";
-        int timeInt=0;
-        if (days > 0){
+        long timeInt=0;
+        if (years > 0){
+            timeInt = years;
+            timeID = " y";
+        }else if(month > 0){
+            timeInt = month;
+            timeID = " m";
+        }else if(days > 0){
             timeInt = days;
             timeID = " d";
         }else if(hours > 0){
@@ -43,10 +54,17 @@ public class MathStuff {
     }
 
     public long getVorschub(double score, int counter){
-        double verlaufFaktor = Math.round(score/counter*10)/10.0;
+     //   double verlaufFaktor = Math.round(score/counter*10)/10.0;
+        double verlaufFaktor = 1;
+
+        int lin = MySingleton.getInstance().getVorschubLin();
+        double exp = MySingleton.getInstance().getVorschubExp()/10;
+
         if(verlaufFaktor<0.1)verlaufFaktor=0.1;
-        //todo an Settings anpassen
-        return 2000*(int)(Math.pow(verlaufFaktor, 3)*(score*20+ Math.pow(2, score)));
+
+        long vorschub = (long)(Math.pow(verlaufFaktor, 3)*(score*lin)*( Math.pow(exp, score)));
+        Log.d("vs", "VS " + vorschub);
+        return vorschub;
     }
 
 }

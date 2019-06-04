@@ -81,53 +81,10 @@ public class TimingListAdapter extends SimpleCursorAdapter {
 
         holder.text3.setText(cursor.getString(choices[2]));
 
-        int sec;
-        int min;
-        int hours;
-        int days;
         long nextTime = Long.parseLong(cursor.getString(choices[2]));
         MathStuff Ms = new MathStuff();
         holder.text3.setText(Ms.getTimings(nextTime));
-//        if(from[0].equals("lastTime") || from[0].equals("nextTime")){
-//            long dv = cursor.getLong(choices[0]) ;
-//            Date df = new Date(dv);
-//            holder.text1.setText(getDifference(dv));
-//        }else{
-//            holder.text1.setText(cursor.getString(choices[2]));
-//        }
-//
-//        if(from[2].equals("lastTime") || from[2].equals("nextTime")){
-//            long dv = cursor.getLong(choices[2]) ;
-//            Date df = new Date(dv);
-//            holder.text3.setText(getDifference(dv));
-//        }else{
-//            holder.text3.setText(cursor.getString(choices[0]));
-//        }
         return (convertView);
-    }
-
-
-private String getDifference(long dateInMills){
-    String result = "";
-    long tempKlein;
-    long tempGross;
-    Long difference = ( dateInMills-nowInMS);
-
-    if(Math.abs(difference)<hoursInMilli){
-        tempGross = (int)(difference/minutesInMilli);
-        tempKlein = (int)((difference%minutesInMilli)/secondsInMilli);
-        result = String.format("%d m\n %d s", tempGross, Math.abs(tempKlein));
-    }else if (difference<daysInMilli){
-        tempGross = (int)(difference/hoursInMilli);
-        tempKlein = (int)((difference%hoursInMilli)/minutesInMilli);
-        result = String.format("%d h\n %d m", tempGross, Math.abs(tempKlein));
-    }else{
-        tempGross = (int)(difference/daysInMilli);
-        tempKlein = (int)((difference%daysInMilli)/hoursInMilli);
-        result = String.format("%d d\n %d h", tempGross, Math.abs(tempKlein));
-
-    }
-    return result;
     }
 
 }

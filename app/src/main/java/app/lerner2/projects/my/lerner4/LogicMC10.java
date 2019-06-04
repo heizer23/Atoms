@@ -179,38 +179,23 @@ public class LogicMC10{
         MathStuff Ms = new MathStuff();
         int position;
         long vorschub =  Ms.getVorschub(score, counter);
-
-
-        double verlaufFaktor = Math.round(score/counter*10)/10.0;
-
-        if(verlaufFaktor<0.1)verlaufFaktor=0.1;
-        next = next+ vorschub;
-
         position = 1;
 
-        if(save == 1){
-            if(score<0)score = 0;
-            dbHelper.saveResults(id, score, vorschub, counter);
-        }
-        else{
-            position = 1;
-        }
+        if(score<0)score = 0;
+        dbHelper.saveResults(id, score, vorschub, counter);
 
-        MySingleton.getInstance().vorschubText = "(" +  score*20+ " + " +  Math.round(Math.pow(2, score)*1000)/1000 + ") * "+ Math.round(Math.pow(verlaufFaktor, 3)*1000)/1000.0 + " + 2 = " + vorschub ;
+
+       // MySingleton.getInstance().vorschubText = "(" +  score*20+ " + " +  Math.round(Math.pow(2, score)*1000)/1000 + ") * "+ Math.round(Math.pow(verlaufFaktor, 3)*1000)/1000.0 + " + 2 = " + vorschub ;
+        MySingleton.getInstance().vorschubText = "Platzhalter";
 
         double[] results = new double[5];
         results[0] = score;
         results[1] = counter;
-        results[2] = verlaufFaktor;
+        results[2] = 99;
         results[3] = vorschub;
         results[4] = position;
 
         return results;
     }
 
-
-
-    public String getOrt() {
-        return ort;
-    }
 }

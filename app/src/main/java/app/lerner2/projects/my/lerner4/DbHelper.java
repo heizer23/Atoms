@@ -121,7 +121,7 @@ public class DbHelper extends DatabaseBase {
 
         Time now = new Time();
         now.setToNow();
-        long longTemp = now.toMillis(true);
+        long longTemp = now.toMillis(true)/1000;
 
         ContentValues values = new ContentValues();
         values.put(KEY_SCORE, score);
@@ -144,7 +144,7 @@ public class DbHelper extends DatabaseBase {
 
         Time now = new Time();
         now.setToNow();
-        long longTemp = now.toMillis(true);
+        long longTemp = now.toMillis(true)/1000;
 
         ContentValues values = new ContentValues();
         values.put("fragenId", id);
@@ -152,7 +152,7 @@ public class DbHelper extends DatabaseBase {
         values.put("nextTime", longTemp+(vorschub));
         values.put("lastTime", longTemp);
       //  values.put("counter", counter);
-        long nextTime = longTemp+(vorschub*1000);
+        long nextTime = longTemp+(vorschub);
         saveResultsAlt(id, score, nextTime, counter);
       //  addRunde(values);
     }
@@ -174,7 +174,7 @@ public class DbHelper extends DatabaseBase {
     public int nextFrage(){
         Time now = new Time();
         now.setToNow();
-        long longTemp = now.toMillis(true);
+        long longTemp = now.toMillis(true)/1000;
 
         open();
 
@@ -313,17 +313,11 @@ public class DbHelper extends DatabaseBase {
     public Cursor getNextEvents(){
         Time now = new Time();
         now.setToNow();
-        long longTemp = now.toMillis(true);
+        long longTemp = now.toMillis(true)/1000;
         String sqlString = String.format("Select _id, Item, Next from Events where next > %d order by next asc", longTemp);
         Cursor cursor = mySQLDB.rawQuery(sqlString, null);
         return cursor;
 
-    }
-
-    public Cursor getJointCursor(String orderBy){
-        String selectQuery = "SELECT * FROM Events  order by " + orderBy ;
-        Cursor cursor = mySQLDB.rawQuery(selectQuery, null);
-        return cursor;
     }
 
 
