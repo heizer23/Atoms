@@ -103,8 +103,8 @@ public class Quizzer extends AppCompatActivity implements FragMC.OnUpdateListene
                 startActivity(intent);
                 break;
             case  R.id.action_extra:
-                DbHelper dbHelper1 = new DbHelper(this,this);
-                dbHelper1.putInQuestions();
+                //DbHelper dbHelper1 = new DbHelper(this,this);
+               // dbHelper1.putInQuestions();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -119,6 +119,6 @@ public class Quizzer extends AppCompatActivity implements FragMC.OnUpdateListene
         tvu2.setText(infoStrings[3]);
         tvu3.setText(infoStrings[4]);
         tvu4.setText(infoStrings[5]);
-        tvu5.setText(infoStrings[6]);
+       // tvu5.setText(infoStrings[6]);
     }
 }

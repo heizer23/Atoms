@@ -118,8 +118,7 @@ public class DbHelper extends DatabaseBase {
         return data;
     }
 
-    public int saveResultsAlt(int id, double score, long next, int counter){
-
+    public void saveResults(int id, double score, long next, long last, int counter){
 
         Time now = new Time();
         now.setToNow();
@@ -130,46 +129,8 @@ public class DbHelper extends DatabaseBase {
         values.put(KEY_LASTDATE, longTemp);
         values.put(KEY_NEXT, next);
         values.put(KEY_COUNTER, counter);
+        values.put(KEY_LASTDATE, last);
         update(id, values);
-
-        open();
-        Cursor c = mySQLDB.rawQuery("Select * from events where Next > 0 AND Next < " + next , null);
-        int position = (1+c.getCount());
-        close();
-        return position;
-    }
-
-
-
-    public void saveResults(int id, double score, long vorschub, int counter){
-      open();
-
-        Time now = new Time();
-        now.setToNow();
-        long longTemp = now.toMillis(true)/1000;
-
-        ContentValues values = new ContentValues();
-        values.put("fragenId", id);
-        values.put("Score", score);
-        values.put("nextTime", longTemp+(vorschub));
-        values.put("lastTime", longTemp);
-      //  values.put("counter", counter);
-        long nextTime = longTemp+(vorschub);
-        saveResultsAlt(id, score, nextTime, counter);
-      //  addRunde(values);
-    }
-
-    public void putInQuestions(){
-        int[] ids = {24, 125, 93, 150, 264, 266};
-
-        for (int i = 0; i < ids.length; i++) {
-
-            saveResults(ids[i], 1, 20*i,1);
-
-        }
-
-        ids[0] = 2;
-
     }
 
 
@@ -185,7 +146,6 @@ public class DbHelper extends DatabaseBase {
         int fragenId = cursor.getInt(iFragenId);
         return fragenId;
     }
-
 
     public void saveOrt(int id, String ort){
         open();

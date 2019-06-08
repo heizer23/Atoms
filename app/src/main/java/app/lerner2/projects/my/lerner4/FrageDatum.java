@@ -3,6 +3,7 @@ package app.lerner2.projects.my.lerner4;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.Time;
 
 import app.lerner2.projects.my.lerner4.Data.DbHelper;
 
@@ -16,7 +17,7 @@ public class FrageDatum {
     private Long next;
     private double score;
     private int counter;
-
+    private String status = "unbeantwortet";
 
 
     public FrageDatum(Context c, Activity act) {
@@ -35,38 +36,24 @@ public class FrageDatum {
 
     }
 
-    public double[] calcResults(double save){
+    public void calcResults(boolean richtig){
         MathStuff Ms = new MathStuff();
-        int position;
-        long vorschub =  Ms.getVorschub(score, counter);
-        position = 1;
+        long vorschub;
+        if(richtig){
+            status = "richtig";
+            score = score+1;
+        }else{
+            status = "falsch";
+            score = 0;
+        }
+        counter = counter+1;
+        vorschub =  Ms.getVorschub(score, counter);
 
-        if(score<0)score = 0;
-        dbHelper.saveResults(id, score, vorschub, counter);
-
-
-        // MySingleton.getInstance().vorschubText = "(" +  score*20+ " + " +  Math.round(Math.pow(2, score)*1000)/1000 + ") * "+ Math.round(Math.pow(verlaufFaktor, 3)*1000)/1000.0 + " + 2 = " + vorschub ;
-        MySingleton.getInstance().vorschubText = "Platzhalter";
-
-        double[] results = new double[5];
-        results[0] = score;
-        results[1] = counter;
-        results[2] = 99;
-        results[3] = vorschub;
-        results[4] = position;
-
-        return results;
-    }
-
-
-    public void resetScore() {
-        this.score = 0;
-    }
-    public void addScore() {
-        this.score = score+1;
-    }
-    public void addCounter() {
-        this.counter = counter+1;
+        Time now = new Time();
+        now.setToNow();
+        long thisTime = now.toMillis(true)/1000;
+        next = thisTime + vorschub;
+        dbHelper.saveResults(id, score, next,thisTime, counter);
     }
 
 
@@ -82,5 +69,19 @@ public class FrageDatum {
         return id;
     }
 
+    public double getScore() {
+        return score;
+    }
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public Long getNext() {
+        return next;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }

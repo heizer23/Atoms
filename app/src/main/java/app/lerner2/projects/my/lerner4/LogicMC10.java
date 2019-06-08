@@ -19,6 +19,7 @@ public class LogicMC10{
     private FrageDatum actFrage;
     private int eingrenzungen;
     private int rahmen= 1000;
+    int lowestDate;
 
     public LogicMC10(Context c, Activity act) {
         this.c = c;
@@ -26,8 +27,8 @@ public class LogicMC10{
     }
 
     public String neueFrage(){
-        if (!(lastFrage == null)){
-            MySingleton.getInstance().solution = ""+lastFrage.getDatum();
+        if (!(actFrage == null)){
+            lastFrage = actFrage;
         }
 
         actFrage = new FrageDatum(c, act);
@@ -91,61 +92,61 @@ public class LogicMC10{
         return buttTextsSorted;
     }
 
-    public double[] checkAnswer(String answer) {
-        double[] eingrenz_richtig = new double[7]; // eingrenzung[1] ---- 0 richtig, -1 zu früh, 1 zu spät
-        double[] infos;
-        int datum= actFrage.getDatum();
-        eingrenzungen++;
-        eingrenz_richtig[0] = 0;
-        eingrenz_richtig[1] = 0;
-
-        int[] guess = new int[2];
-
-        String[] saSplit = answer.split(" - ");
-
-        guess[0]  = Integer.parseInt(saSplit[0]);
-
-        if(saSplit.length > 1){ //Eingrenzung
-            guess[1]  = Integer.parseInt(saSplit[1]);
-
-            if(guess[0]>datum){
-                eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = guess[0]-datum;
-                actFrage.resetScore();
-            }else if(guess[1]<datum){
-                eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = guess[0]-datum;
-                actFrage.resetScore();
+    public String[] getRundenInfo(){
+        MathStuff ms = new MathStuff();
+        String[] result = new String[8];
+        if (!(actFrage == null)) {
+            result[0] = "Next: " + ms.getTimings(actFrage.getNext());
+            result[1] = "Score: " + actFrage.getScore();
+            result[2] = "Counter";
+            result[3] = ""+actFrage.getCounter();
+            String tempStatus = actFrage.getStatus();
+            if(tempStatus.equals("richtig")){
+                result[6] = "" + actFrage.getDatum() + "  ist korrekt";
             }else{
-                eingrenz_richtig[0] = 0;
-                eingrenz_richtig[1] = guess[0]-datum;
+                result[6] = "" + lowestDate + "  ist falsch - Es wäre " + actFrage.getDatum() + " gewesen";
+            }
+        }else{
+            result[0] = "Next: ";
+            result[1] = "Score: " ;
+            result[2] = "Counter";
+            result[3] = "";
+            result[6] = "";
+        }
+        result[4] = "";
+        result[5] = "";
+        result[7] = "";
+        return result;
+    }
+
+    public double[] checkAnswer( String answer){
+        double[] result = new double[2];
+        int eingrenz = 1;
+        int datum= actFrage.getDatum();
+        String[] splitAnswer = answer.split(" - ");
+        lowestDate = Integer.parseInt(splitAnswer[0]);
+        int datumsDelta = lowestDate - datum;
+
+        if(splitAnswer.length > 1) {
+            int highestDate = Integer.parseInt(splitAnswer[1]);
+            if (lowestDate > datum || highestDate < datum) {
+                actFrage.calcResults(false);
+            } else {
+                eingrenz = 0;
                 rahmen = rahmen / 10;
             }
-        }else{      // Final
-            if(guess[0]>datum){
-                eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = guess[0]-datum;
-                actFrage.resetScore();
-            }else if(guess[0]<datum){
-                eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = guess[0]-datum;
-                actFrage.resetScore();
-            }else{
-                eingrenz_richtig[0] = 1;
-                eingrenz_richtig[1] = guess[0]-datum;
-                actFrage.addScore();
-            }
+        }else{
+                if (lowestDate == datum){
+                    actFrage.calcResults(true);
+                }else{
+                    actFrage.calcResults(false);
+                }
         }
 
-        if(eingrenz_richtig[0]==1) actFrage.addCounter();
+        result[0] = eingrenz;
+        result[1] = datumsDelta;
 
-        infos = actFrage.calcResults(eingrenz_richtig[0]);
-
-        for(int i=0; i<infos.length;i++){
-            eingrenz_richtig[2+i] = infos[i];
-        }
-
-        return eingrenz_richtig;
+        return result;
     }
 
 }

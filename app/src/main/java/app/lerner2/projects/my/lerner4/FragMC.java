@@ -117,33 +117,16 @@ public class FragMC extends Fragment implements View.OnClickListener{
             double[] eingrenzRight = logic.checkAnswer(sButtText);
             tvInfo.performHapticFeedback(3);
 
-            String[] infoStrings = new String[8];
-
-            infoStrings[0] = " Round: " + MySingleton.getInstance().getNext();
-            infoStrings[1] = " Count: " + MySingleton.getInstance().getCount() + " (" + MySingleton.getInstance().getAktiviert() + ")";
-            infoStrings[2] = " S: " + eingrenzRight[2] ;
-            infoStrings[3] = " C: " + (int)eingrenzRight[3] ;
-            infoStrings[4] = " R: " + eingrenzRight[4] ;
-            infoStrings[5] = " V:  "  + (int)eingrenzRight[5] ;
-            infoStrings[6] = " N: "  + (int)eingrenzRight[6] ;
-
-            mCallback.onUpdate(infoStrings);
-
-            String infoText =  MySingleton.getInstance().vorschubText;
-
-
            // tvInfo.setBackgroundColor(color[(int)eingrenzRight[1]]);
             if (eingrenzRight[0] == 0 ) {      // Eingrenzungsantwort
                 tvInfo.setText("Korrekt ");
                 setUpButtonsMC();
-            } else if (eingrenzRight[1] == 0) { //Antwort richtig
+            } else{
+                String[] infoStrings = logic.getRundenInfo();
+                mCallback.onUpdate(infoStrings);
+                tvInfo.setText(infoStrings[6]);
                 neueFrage();
-                tvInfo.setText("Korrekt " + sButtText);
-            } else {                          //Antwort falsch
-                neueFrage();
-                tvInfo.setText("Nicht " + sButtText +  " Delta " + eingrenzRight[1]);
             }
-            ;
         }
     }
 

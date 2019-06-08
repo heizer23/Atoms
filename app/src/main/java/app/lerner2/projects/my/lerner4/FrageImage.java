@@ -39,9 +39,9 @@ public class FrageImage extends Fragment implements View.OnClickListener{
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public FrageImage(Context c, Activity act) {
+    public FrageImage() {
 
-        ourContext = c;
+        ourContext = null;
     }
 
     @Override
