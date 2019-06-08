@@ -17,6 +17,8 @@ import android.widget.ListView;
 import java.io.File;
 import java.util.ArrayList;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class LekAuswActiv extends Activity implements View.OnClickListener {
 
     private Button bSave;

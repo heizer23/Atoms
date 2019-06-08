@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 /**
  * Created by Philip on 19.07.2015.
  */

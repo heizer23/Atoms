@@ -4,6 +4,8 @@ package app.lerner2.projects.my.lerner4;
 import android.app.Activity;
 import android.content.Context;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class FrageDatum {
 
     private DbHelper dbHelper;
@@ -17,13 +19,14 @@ public class FrageDatum {
 
 
 
-    public FrageDatum(int id, Context c, Activity act) {
+    public FrageDatum(Context c, Activity act) {
+
         dbHelper = new DbHelper(c,act);
         dbHelper.open();
+        id = dbHelper.nextFrage();
         String[] values = dbHelper.getFrageInfos(id);
         dbHelper.close();
 
-        this.id =  id;
         item = values[1];
         datum = Integer.parseInt(values[2]);
         next = Long.parseLong(values[3]);

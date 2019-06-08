@@ -26,6 +26,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class OverviewActivity extends ListActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
 

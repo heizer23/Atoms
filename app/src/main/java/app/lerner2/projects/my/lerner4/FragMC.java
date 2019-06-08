@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class FragMC extends Fragment implements View.OnClickListener{
     /**
      * The fragment argument representing the section number for this
@@ -35,7 +37,7 @@ public class FragMC extends Fragment implements View.OnClickListener{
 
     // Container Activity must implement this interface
     public interface OnUpdateListener {
-        public void onUpdate(String[] infoStrings);
+        void onUpdate(String[] infoStrings);
     }
 
     @Override
@@ -63,22 +65,22 @@ public class FragMC extends Fragment implements View.OnClickListener{
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         act = getActivity();
         ourContext = act ;
-        tvFrage = (TextView) rootView.findViewById(R.id.tvFrage);
-        tvInfo = (TextView) rootView.findViewById(R.id.tvInfo);
+        tvFrage = rootView.findViewById(R.id.tvFrage);
+        tvInfo = rootView.findViewById(R.id.tvInfo);
         //  tvFrage = (TextView) findViewById(R.id.tvFrage);
 
-        bChoice[0] = (Button) rootView.findViewById(R.id.button1);
-        bChoice[1] = (Button) rootView.findViewById(R.id.button2);
-        bChoice[2] = (Button) rootView.findViewById(R.id.button3);
-        bChoice[3] = (Button) rootView.findViewById(R.id.button4);
-        bChoice[4] = (Button) rootView.findViewById(R.id.button5);
-        bChoice[5] = (Button) rootView.findViewById(R.id.button6);
-        bChoice[6] = (Button) rootView.findViewById(R.id.button7);
-        bChoice[7] = (Button) rootView.findViewById(R.id.button8);
-        bChoice[8] = (Button) rootView.findViewById(R.id.button9);
-        bChoice[9] = (Button) rootView.findViewById(R.id.button10);
+        bChoice[0] = rootView.findViewById(R.id.button1);
+        bChoice[1] = rootView.findViewById(R.id.button2);
+        bChoice[2] = rootView.findViewById(R.id.button3);
+        bChoice[3] = rootView.findViewById(R.id.button4);
+        bChoice[4] = rootView.findViewById(R.id.button5);
+        bChoice[5] = rootView.findViewById(R.id.button6);
+        bChoice[6] = rootView.findViewById(R.id.button7);
+        bChoice[7] = rootView.findViewById(R.id.button8);
+        bChoice[8] = rootView.findViewById(R.id.button9);
+        bChoice[9] = rootView.findViewById(R.id.button10);
 
-        layRechts = (LinearLayout) rootView.findViewById(R.id.linlayrechts);
+        layRechts = rootView.findViewById(R.id.linlayrechts);
 
         bChoice[0].setHapticFeedbackEnabled(true);
         for (int i = 0; i < bChoice.length; i++) {
@@ -90,28 +92,8 @@ public class FragMC extends Fragment implements View.OnClickListener{
     }
 
     public void neueFrage(){
-        int fragenId;
-        String[] buttTexts;
-
-        DbHelper dbHelper = new DbHelper(ourContext,act);
-        dbHelper.open();
-        fragenId = dbHelper.nextFrage();
-        dbHelper.close();
-
-        tvFrage.setText(logic.neueFrage(fragenId));
-
-//        if( logic.getVorschub()< MySingleton.getInstance().getVorschubGrenze()) {
-//            layRechts.setVisibility(View.GONE);
-//            buttTexts = logic.getButtonTextsMC4();
-//        }else{
-            layRechts.setVisibility(View.VISIBLE);
-            buttTexts = logic.getButtonTexts();
-  //      }
-
-        for (int i = 0; i < buttTexts.length; i++) {
-            bChoice[i].setText(buttTexts[i]);
-        }
-
+        tvFrage.setText(logic.neueFrage());
+        setUpButtonsMC();
     }
 
     public void setUpButtonsMC() {

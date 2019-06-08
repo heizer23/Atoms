@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 
 public class Quizzer extends AppCompatActivity implements FragMC.OnUpdateListener {
 
@@ -34,13 +36,13 @@ public class Quizzer extends AppCompatActivity implements FragMC.OnUpdateListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizzer);
 
-        tvO1 = (TextView) findViewById(R.id.tv_o1);
-        tvO2 = (TextView) findViewById(R.id.tv_o2);
-        tvu1 = (TextView) findViewById(R.id.tv_u1);
-        tvu2 = (TextView) findViewById(R.id.tv_u2);
-        tvu3 = (TextView) findViewById(R.id.tv_u3);
-        tvu4 = (TextView) findViewById(R.id.tv_u4);
-        tvu5 = (TextView) findViewById(R.id.tv_u5);
+        tvO1 = findViewById(R.id.tv_o1);
+        tvO2 = findViewById(R.id.tv_o2);
+        tvu1 = findViewById(R.id.tv_u1);
+        tvu2 = findViewById(R.id.tv_u2);
+        tvu3 = findViewById(R.id.tv_u3);
+        tvu4 = findViewById(R.id.tv_u4);
+        tvu5 = findViewById(R.id.tv_u5);
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, new FragMC())

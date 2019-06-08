@@ -1,11 +1,10 @@
-package app.lerner2.projects.my.lerner4;
+package app.lerner2.projects.my.lerner4.Data;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.text.format.Time;
 import android.util.Log;
@@ -16,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import app.lerner2.projects.my.lerner4.Data.DatabaseBase;
+import app.lerner2.projects.my.lerner4.MySingleton;
 
 
 public class DbHelper extends DatabaseBase {
@@ -176,14 +178,11 @@ public class DbHelper extends DatabaseBase {
         now.setToNow();
         long longTemp = now.toMillis(true)/1000;
 
-        open();
-
         String sqlString = String.format("Select _id from Events where next < %d order by next desc", longTemp);
         Cursor cursor = mySQLDB.rawQuery(sqlString, null);
         int iFragenId = cursor.getColumnIndex("_id");
         cursor.moveToFirst();
         int fragenId = cursor.getInt(iFragenId);
-        close();
         return fragenId;
     }
 

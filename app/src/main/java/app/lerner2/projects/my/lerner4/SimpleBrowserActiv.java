@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class SimpleBrowserActiv extends Activity {
 
     WebView ourBrow;

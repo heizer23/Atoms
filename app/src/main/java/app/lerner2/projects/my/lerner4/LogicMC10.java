@@ -17,8 +17,7 @@ public class LogicMC10{
     private String[] buttenTexts = new String[10];
     private FrageDatum lastFrage;
     private FrageDatum actFrage;
-    private int eingrenzungen = 3;
-    private int datum;
+    private int eingrenzungen;
     private int rahmen= 1000;
 
     public LogicMC10(Context c, Activity act) {
@@ -26,13 +25,13 @@ public class LogicMC10{
         this.act = act;
     }
 
-    public String neueFrage(int fragenId){
+    public String neueFrage(){
         if (!(lastFrage == null)){
             MySingleton.getInstance().solution = ""+lastFrage.getDatum();
         }
 
-        actFrage = new FrageDatum(fragenId, c, act);
-        datum = actFrage.getDatum();
+        actFrage = new FrageDatum(c, act);
+
         eingrenzungen = 3;
         rahmen= 1000;
         return actFrage.getItem();
@@ -44,6 +43,7 @@ public class LogicMC10{
         int minimum;
         int maximum;
         int datumStart;
+        int datum= actFrage.getDatum();
 
         if (datum > 1900) {
             rahmen = 100;
@@ -94,6 +94,7 @@ public class LogicMC10{
     public double[] checkAnswer(String answer) {
         double[] eingrenz_richtig = new double[7]; // eingrenzung[1] ---- 0 richtig, -1 zu früh, 1 zu spät
         double[] infos;
+        int datum= actFrage.getDatum();
         eingrenzungen++;
         eingrenz_richtig[0] = 0;
         eingrenz_richtig[1] = 0;

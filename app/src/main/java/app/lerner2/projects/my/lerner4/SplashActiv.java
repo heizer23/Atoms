@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 
 public class SplashActiv extends Activity {
     private Context ourContext;

@@ -1,4 +1,4 @@
-package app.lerner2.projects.my.lerner4;
+package app.lerner2.projects.my.lerner4.Data;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import app.lerner2.projects.my.lerner4.R;
 
 
 public class DatabaseBase {

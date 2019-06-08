@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 public class TimingListAct extends ListActivity {
 
     private Resources res;

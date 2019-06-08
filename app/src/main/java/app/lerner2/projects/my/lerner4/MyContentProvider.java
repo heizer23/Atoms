@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
+
 
 public class MyContentProvider extends ContentProvider {
 

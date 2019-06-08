@@ -1,6 +1,5 @@
 package app.lerner2.projects.my.lerner4;
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
 
 public class AdapterOverview extends SimpleCursorAdapter {
 
