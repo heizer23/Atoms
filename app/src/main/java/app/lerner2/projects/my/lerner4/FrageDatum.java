@@ -60,7 +60,6 @@ public class FrageDatum {
         dbHelper.saveResults(id, score, next,thisTime, counter);
     }
 
-
     public int getDatum() {
         return datum;
     }

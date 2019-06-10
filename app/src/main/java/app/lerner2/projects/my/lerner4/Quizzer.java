@@ -97,34 +97,29 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         layRechtsTop.setVisibility(View.GONE);
     }
 
+    private void evaluateButton(Button view) {
+        Button bTemp = view;
+        sButtText = bTemp.getText().toString();
+        boolean eingrenzung= logic.checkAnswer(sButtText);
+        tvInfo.performHapticFeedback(3);
+
+        if (eingrenzung) {      // Eingrenzungsantwort
+            tvInfo.setText("Korrekt ");
+            setUpButtonsMC();
+        } else{
+            String[] infoStrings = logic.getRundenInfo();
+            onUpdateInfo(infoStrings);
+            tvInfo.setText(infoStrings[6]);
+            neueFrage();
+        }
+    }
+
     @Override
     public void onClick(View view) {
-//        Utilities ut = new Utilities(ourContext);
-//        ut.expDb.export(ourContext, "1");
-
         if (view.getId() == R.id.tvFrage ) {
-            Intent intent = new Intent();
-            String[] urlInfo = logic.getUrl();
-            intent.putExtra("id", Integer.parseInt(urlInfo[0]));
-            intent.putExtra("url", urlInfo[1]);
-            intent.setClass(ourContext, SimpleBrowserActiv.class);
-            startActivity(intent);
+            startBrowser();
         }else {
-            Button bTemp = (Button) view;
-            sButtText = bTemp.getText().toString();
-            double[] eingrenzRight = logic.checkAnswer(sButtText);
-            tvInfo.performHapticFeedback(3);
-
-            // tvInfo.setBackgroundColor(color[(int)eingrenzRight[1]]);
-            if (eingrenzRight[0] == 0 ) {      // Eingrenzungsantwort
-                tvInfo.setText("Korrekt ");
-                setUpButtonsMC();
-            } else{
-                String[] infoStrings = logic.getRundenInfo();
-                onUpdateInfo(infoStrings);
-                tvInfo.setText(infoStrings[6]);
-                neueFrage();
-            }
+            evaluateButton((Button) view);
         }
     }
 
@@ -136,6 +131,15 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         tvu3.setText(infoStrings[4]);
         tvu4.setText(infoStrings[5]);
        // tvu5.setText(infoStrings[6]);
+    }
+
+    private void startBrowser() {
+        Intent intent = new Intent();
+        String[] urlInfo = logic.getUrl();
+        intent.putExtra("id", Integer.parseInt(urlInfo[0]));
+        intent.putExtra("url", urlInfo[1]);
+        intent.setClass(ourContext, SimpleBrowserActiv.class);
+        startActivity(intent);
     }
 
     @Override

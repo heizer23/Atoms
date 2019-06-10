@@ -122,9 +122,8 @@ public class LogicMC10 implements Logic{
         return result;
     }
 
-    public double[] checkAnswer( String answer){
-        double[] result = new double[2];
-        int eingrenz = 1;
+    public boolean checkAnswer( String answer){
+        boolean eingrenzung = false;
         int datum= actFrage.getDatum();
         String[] splitAnswer = answer.split(" - ");
         lowestDate = Integer.parseInt(splitAnswer[0]);
@@ -135,7 +134,7 @@ public class LogicMC10 implements Logic{
             if (lowestDate > datum || highestDate < datum) {
                 actFrage.calcResults(false);
             } else {
-                eingrenz = 0;
+                eingrenzung = true;
                 rahmen = rahmen / 10;
             }
         }else{
@@ -145,11 +144,7 @@ public class LogicMC10 implements Logic{
                     actFrage.calcResults(false);
                 }
         }
-
-        result[0] = eingrenz;
-        result[1] = datumsDelta;
-
-        return result;
+        return eingrenzung;
     }
 
     public String[] getUrl(){

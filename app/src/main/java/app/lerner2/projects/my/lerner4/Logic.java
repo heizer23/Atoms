@@ -6,6 +6,6 @@ public interface Logic {
     String getItem();
     String[] getButtonTexts();
     String[] getRundenInfo();
-    double[] checkAnswer( String answer);
+    boolean checkAnswer( String answer);
     String[] getUrl();
 }
