@@ -10,33 +10,19 @@ import java.util.Calendar;
 import java.util.Random;
 
 
-public class LogicMC10 implements Logic{
-    protected Activity act;
-    protected Context c;
+public class LogicMC10 {
     private String[] buttenTexts = new String[10];
-    private FrageDatum lastFrage;
-    private FrageDatum actFrage;
     private int eingrenzungen;
     private int rahmen= 1000;
     int lowestDate;
+    private FrageDatum actFrage;
 
-    public LogicMC10(Context c, Activity act) {
-        this.c = c;
-        this.act = act;
-    }
-
-    public void neueFrage(){
-        if (!(actFrage == null)){
-            lastFrage = actFrage;
-        }
-        actFrage = new FrageDatum(c, act);
+    public LogicMC10(FrageDatum actFrage) {
+        this.actFrage = actFrage;
         eingrenzungen = 3;
         rahmen= 1000;
     }
 
-    public String getItem(){
-        return actFrage.getItem();
-    }
 
     public String[] getButtonTexts() {
         int[] wert = new int[12];
@@ -44,8 +30,7 @@ public class LogicMC10 implements Logic{
         int minimum;
         int maximum;
         int datumStart;
-        int datum= actFrage.getDatum();
-
+        int datum = actFrage.getDatum();
         if (datum > 1900) {
             rahmen = 100;
             eingrenzungen = 2;
@@ -88,7 +73,6 @@ public class LogicMC10 implements Logic{
                 buttTextsSorted[index+4] = buttenTexts[i];
             }
         }
-
         return buttTextsSorted;
     }
 

@@ -35,8 +35,8 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     private Context ourContext;
     private Activity act;
-    private Logic logic;
     private String sButtText;
+    private FrageDatum actFrage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,18 +75,17 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
             bChoice[i].setOnClickListener(this);
         }
         tvFrage.setOnClickListener(this);
-        logic = new LogicMC10(ourContext, act);
         neueFrage();
     }
 
     public void neueFrage(){
-        logic.neueFrage();
-        tvFrage.setText(logic.getItem());
+        actFrage = new FrageDatum(this, this);
+        tvFrage.setText(actFrage.getItem());
         setUpButtonsMC();
     }
 
     public void setUpButtonsMC() {
-        String[] texts = logic.getButtonTexts();
+        String[] texts = actFrage.logic.getButtonTexts();
         for (int i = 0; i < texts.length; i++) {
             bChoice[i].setText(texts[i]);
         }
@@ -100,14 +99,14 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     private void evaluateButton(Button view) {
         Button bTemp = view;
         sButtText = bTemp.getText().toString();
-        boolean eingrenzung= logic.checkAnswer(sButtText);
+        boolean eingrenzung= actFrage.logic.checkAnswer(sButtText);
         tvInfo.performHapticFeedback(3);
 
         if (eingrenzung) {      // Eingrenzungsantwort
             tvInfo.setText("Korrekt ");
             setUpButtonsMC();
         } else{
-            String[] infoStrings = logic.getRundenInfo();
+            String[] infoStrings = actFrage.logic.getRundenInfo();
             onUpdateInfo(infoStrings);
             tvInfo.setText(infoStrings[6]);
             neueFrage();
@@ -135,7 +134,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     private void startBrowser() {
         Intent intent = new Intent();
-        String[] urlInfo = logic.getUrl();
+        String[] urlInfo = actFrage.getUrl();
         intent.putExtra("id", Integer.parseInt(urlInfo[0]));
         intent.putExtra("url", urlInfo[1]);
         intent.setClass(ourContext, SimpleBrowserActiv.class);

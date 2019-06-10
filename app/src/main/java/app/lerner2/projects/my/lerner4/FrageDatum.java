@@ -22,6 +22,7 @@ public class FrageDatum {
     private String url;
     private String status = "unbeantwortet";
     private int[] metaStats;
+    public LogicMC10 logic;
 
     public FrageDatum(Context c, Activity act) {
 
@@ -37,7 +38,11 @@ public class FrageDatum {
         score = Double.parseDouble(values[4]);
         counter = Integer.parseInt(values[5]);
         url = values[6];
+        logic = new LogicMC10(this);
+    }
 
+    public boolean evalualteString(String input){
+        return logic.checkAnswer(input);
     }
 
     public void calcResults(boolean richtig){
