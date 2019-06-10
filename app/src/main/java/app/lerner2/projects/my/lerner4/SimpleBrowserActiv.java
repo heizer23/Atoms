@@ -24,17 +24,15 @@ public class SimpleBrowserActiv extends Activity {
         ourBrow.setWebViewClient(new WebViewClient());
         extras = getIntent().getExtras();
         if(extras !=null){
-            url = extras.getString("StringInfo");
-            id = extras.getInt("IntId");
+            url = extras.getString("url");
+            id = extras.getInt("id");
         }
-        ourBrow.loadUrl("https://www.google.de/");
         ourBrow.loadUrl(url);
     }
 
 
     @Override
     public void onBackPressed() {
-        // do something on back.
         DbHelper dataBase = new DbHelper(this, this);
         String temp = ourBrow.getUrl();
         dataBase.saveOrt(id, ourBrow.getUrl());

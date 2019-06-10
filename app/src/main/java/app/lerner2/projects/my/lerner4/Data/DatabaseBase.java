@@ -45,19 +45,19 @@ public class DatabaseBase {
 
 	private static final String TAG = "DatabaseBase ";
 
-	protected static String DB_NAME;
-	protected static String DB_PATH;
-	protected static final int DATABASE_VERSION = 1;
+	private static String DB_NAME;
+	private static String DB_PATH;
+	private static final int DATABASE_VERSION = 1;
 
 	public static final String KEY_ROWID = "_id";
     private Resources res;
 
-	protected final Context ourContext;
+	private final Context ourContext;
 
-	protected SQLiteDatabase mySQLDB;
-	protected DbHelper ourHelper;
+	SQLiteDatabase mySQLDB;
+	DbHelper ourHelper;
 
-    public static final String TABLE_EVENTS = "Events";
+    static final String TABLE_EVENTS = "Events";
     public static final String TABLE_RUNDEN = "runden";
 
 	public DatabaseBase(Context c, Activity act) {
@@ -216,10 +216,24 @@ public class DatabaseBase {
 			Log.i(TAG, cursor.getString(0));
 			cursor.moveToNext();
 		}
-
 		mySQLDB.close();
+	}
 
-
+	public int[] getIntsFromSQL(String sqlQuery){
+		int[] result = null;
+		ourHelper = new DbHelper(ourContext);
+		mySQLDB = ourHelper.getWritableDatabase();
+		Cursor cursor = mySQLDB.rawQuery(sqlQuery, null);
+		result = new int[cursor.getCount()];
+		cursor.moveToFirst();
+		int i = 0;
+		while(!cursor.isAfterLast()) {
+			result[i] = cursor.getInt(0);
+			i=i+1;
+			cursor.moveToNext();
+		}
+		mySQLDB.close();
+		return result;
 	}
 
 

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.format.Time;
 
+import java.io.UnsupportedEncodingException;
+
 import app.lerner2.projects.my.lerner4.Data.DbHelper;
 
 public class FrageDatum {
@@ -17,8 +19,9 @@ public class FrageDatum {
     private Long next;
     private double score;
     private int counter;
+    private String url;
     private String status = "unbeantwortet";
-
+    private int[] metaStats;
 
     public FrageDatum(Context c, Activity act) {
 
@@ -33,6 +36,7 @@ public class FrageDatum {
         next = Long.parseLong(values[3]);
         score = Double.parseDouble(values[4]);
         counter = Integer.parseInt(values[5]);
+        url = values[6];
 
     }
 
@@ -83,5 +87,24 @@ public class FrageDatum {
 
     public String getStatus() {
         return status;
+    }
+
+    public int[] getMetaStats() {
+        dbHelper.open();
+        metaStats = dbHelper.getCountStats();
+        dbHelper.close();
+        return metaStats;
+    }
+
+    public String[] getUrl() {
+        String[] result = new String[2];
+        if(url ==null){
+            url = item.replace(" ", "%");
+            url = "https://www.google.com/search?q=" + url;
+        }
+
+        result[0] = ""+id;
+        result[1] = url;
+        return result;
     }
 }

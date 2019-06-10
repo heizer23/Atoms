@@ -56,6 +56,14 @@ public class DbHelper extends DatabaseBase {
         return c;
     }
 
+    public int[] getCountStats(){
+        Time now = new Time();
+        now.setToNow();
+        long longTemp = now.toMillis(true)/1000;
+        String sqlQuery= "SELECT count(item)as Anzahl FROM events where counter >0 union all SELECT count(item) FROM events where next > %d";
+        sqlQuery = String.format(sqlQuery, longTemp);
+        return getIntsFromSQL(sqlQuery);
+    }
 
 
     public int getCount(){

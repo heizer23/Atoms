@@ -26,8 +26,8 @@ public class MySingleton {
     "false","false","false","false","false","false","false","false"};
     private int deltaUWF = 0;
     private int rundeGlob = 0;
-    private int VorschubLin = 4;
-    private int VorschubExp = 4;
+    private int VorschubLin = 47;
+    private int VorschubExp = 41;
     private int onlyTop2 = 0;
     private int onlyBottom2 = 0;
     private int vorschubGrenze = 10;

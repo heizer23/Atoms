@@ -2,6 +2,7 @@ package app.lerner2.projects.my.lerner4;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -86,13 +87,15 @@ public class FragMC extends Fragment implements View.OnClickListener{
         for (int i = 0; i < bChoice.length; i++) {
             bChoice[i].setOnClickListener(this);
         }
+        tvFrage.setOnClickListener(this);
         logic = new LogicMC10(ourContext, act);
         neueFrage();
         return rootView;
     }
 
     public void neueFrage(){
-        tvFrage.setText(logic.neueFrage());
+        String itemText = logic.neueFrage();
+        tvFrage.setText(itemText);
         setUpButtonsMC();
     }
 
@@ -109,9 +112,13 @@ public class FragMC extends Fragment implements View.OnClickListener{
 //        ut.expDb.export(ourContext, "1");
 
         if (view.getId() == R.id.tvFrage ) {
-
+            Intent intent = new Intent();
+            String[] urlInfo = logic.getUrl();
+            intent.putExtra("id", Integer.parseInt(urlInfo[0]));
+            intent.putExtra("url", urlInfo[1]);
+            intent.setClass(ourContext, SimpleBrowserActiv.class);
+            startActivity(intent);
         }else {
-            int[] color = {Color.GREEN, Color.RED, Color.BLUE};
             Button bTemp = (Button) view;
             sButtText = bTemp.getText().toString();
             double[] eingrenzRight = logic.checkAnswer(sButtText);

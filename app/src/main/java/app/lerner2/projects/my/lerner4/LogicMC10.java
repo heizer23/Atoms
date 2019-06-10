@@ -100,6 +100,9 @@ public class LogicMC10{
             result[1] = "Score: " + actFrage.getScore();
             result[2] = "Counter";
             result[3] = ""+actFrage.getCounter();
+            int[] metaStats = actFrage.getMetaStats();
+            result[4] = "g "  + metaStats[0];
+            result[5] = "p "  + metaStats[1];
             String tempStatus = actFrage.getStatus();
             if(tempStatus.equals("richtig")){
                 result[6] = "" + actFrage.getDatum() + "  ist korrekt";
@@ -111,10 +114,10 @@ public class LogicMC10{
             result[1] = "Score: " ;
             result[2] = "Counter";
             result[3] = "";
+            result[4] = "";
+            result[5] = "";
             result[6] = "";
         }
-        result[4] = "";
-        result[5] = "";
         result[7] = "";
         return result;
     }
@@ -147,6 +150,10 @@ public class LogicMC10{
         result[1] = datumsDelta;
 
         return result;
+    }
+
+    public String[] getUrl(){
+        return actFrage.getUrl();
     }
 
 }
