@@ -1,18 +1,13 @@
 package app.lerner2.projects.my.lerner4;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.text.format.Time;
-
-import java.util.Calendar;
-import java.util.Random;
 
 
-public class LogicMC10 implements Logic{
-    protected Activity act;
-    protected Context c;
+public class LogicCompare {
+
+    Activity act;
+    Context c;
     private String[] buttenTexts = new String[10];
     private FrageDatum lastFrage;
     private FrageDatum actFrage;
@@ -20,22 +15,25 @@ public class LogicMC10 implements Logic{
     private int rahmen= 1000;
     int lowestDate;
 
-    public LogicMC10(Context c, Activity act) {
+    public LogicCompare(Context c, Activity act) {
         this.c = c;
         this.act = act;
     }
 
-    public void neueFrage(){
+    public String neueFrage(){
         if (!(actFrage == null)){
             lastFrage = actFrage;
         }
+
         actFrage = new FrageDatum(c, act);
+
         eingrenzungen = 3;
         rahmen= 1000;
+        return actFrage.getItem();
     }
 
-    public String getItem(){
-        return actFrage.getItem();
+    public String getItem() {
+        return null;
     }
 
     public String[] getButtonTexts() {
