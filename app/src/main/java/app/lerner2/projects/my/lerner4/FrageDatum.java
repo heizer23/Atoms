@@ -22,7 +22,10 @@ public class FrageDatum {
     private String url;
     private String status = "unbeantwortet";
     private int[] metaStats;
-    public LogicMC10 logic;
+    private String feedbackString;
+    private String frageModus = "compare";
+    public Logic logic;
+
 
     public FrageDatum(Context c, Activity act) {
 
@@ -38,12 +41,13 @@ public class FrageDatum {
         score = Double.parseDouble(values[4]);
         counter = Integer.parseInt(values[5]);
         url = values[6];
-        logic = new LogicMC10(this);
+        if(frageModus.equals("compare")){
+            logic = new LogicCompare(this);
+        }else{
+            logic = new LogicMC10(this);
+        }
     }
 
-    public boolean evalualteString(String input){
-        return logic.checkAnswer(input);
-    }
 
     public void calcResults(boolean richtig){
         MathStuff Ms = new MathStuff();
@@ -93,6 +97,10 @@ public class FrageDatum {
         return status;
     }
 
+    public String getFrageModus() {
+        return frageModus;
+    }
+
     public int[] getMetaStats() {
         dbHelper.open();
         metaStats = dbHelper.getCountStats();
@@ -110,5 +118,13 @@ public class FrageDatum {
         result[0] = ""+id;
         result[1] = url;
         return result;
+    }
+
+    public String getFeedbackString() {
+        return feedbackString;
+    }
+
+    public void setFeedbackString(String feedbackString) {
+        this.feedbackString = feedbackString;
     }
 }

@@ -1,20 +1,11 @@
 package app.lerner2.projects.my.lerner4;
 
-import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.text.format.Time;
 
-import java.util.Calendar;
-import java.util.Random;
-
-
-public class LogicMC10 {
+public class LogicMC10 implements Logic{
     private String[] buttenTexts = new String[10];
     private int eingrenzungen;
     private int rahmen= 1000;
-    int lowestDate;
+
     private FrageDatum actFrage;
 
     public LogicMC10(FrageDatum actFrage) {
@@ -22,7 +13,6 @@ public class LogicMC10 {
         eingrenzungen = 3;
         rahmen= 1000;
     }
-
 
     public String[] getButtonTexts() {
         int[] wert = new int[12];
@@ -76,63 +66,37 @@ public class LogicMC10 {
         return buttTextsSorted;
     }
 
-    public String[] getRundenInfo(){
-        MathStuff ms = new MathStuff();
-        String[] result = new String[8];
-        if (!(actFrage == null)) {
-            result[0] = "Next: " + ms.getTimings(actFrage.getNext());
-            result[1] = "Score: " + actFrage.getScore();
-            result[2] = "Counter";
-            result[3] = ""+actFrage.getCounter();
-            int[] metaStats = actFrage.getMetaStats();
-            result[4] = "g "  + metaStats[0];
-            result[5] = "p "  + metaStats[1];
-            String tempStatus = actFrage.getStatus();
-            if(tempStatus.equals("richtig")){
-                result[6] = "" + actFrage.getDatum() + "  ist korrekt";
-            }else{
-                result[6] = "" + lowestDate + "  ist falsch - Es wäre " + actFrage.getDatum() + " gewesen";
-            }
-        }else{
-            result[0] = "Next: ";
-            result[1] = "Score: " ;
-            result[2] = "Counter";
-            result[3] = "";
-            result[4] = "";
-            result[5] = "";
-            result[6] = "";
-        }
-        result[7] = "";
-        return result;
-    }
 
-    public boolean checkAnswer( String answer){
-        boolean eingrenzung = false;
+
+    public boolean qualifyAnswer(String answer){
         int datum= actFrage.getDatum();
+        int lowestDate;
+        boolean eingrenzung = false;
         String[] splitAnswer = answer.split(" - ");
-        lowestDate = Integer.parseInt(splitAnswer[0]);
-        int datumsDelta = lowestDate - datum;
-
         if(splitAnswer.length > 1) {
+            lowestDate = Integer.parseInt(splitAnswer[0]);
             int highestDate = Integer.parseInt(splitAnswer[1]);
-            if (lowestDate > datum || highestDate < datum) {
-                actFrage.calcResults(false);
-            } else {
-                eingrenzung = true;
+            if (!(lowestDate > datum || highestDate < datum)) {
                 rahmen = rahmen / 10;
+                eingrenzung = true;
+                actFrage.setFeedbackString("Korrekt");
+            } else {
+                eingrenzung = false;
             }
-        }else{
-                if (lowestDate == datum){
-                    actFrage.calcResults(true);
-                }else{
-                    actFrage.calcResults(false);
-                }
         }
         return eingrenzung;
     }
 
-    public String[] getUrl(){
-        return actFrage.getUrl();
-    }
+    public void checkAnswer( String answer){
+        String[] splitAnswer = answer.split(" - ");
+        int lowestDate = Integer.parseInt(splitAnswer[0]);
 
+        if (lowestDate == actFrage.getDatum()){
+            actFrage.calcResults(true);
+            actFrage.setFeedbackString("" + actFrage.getDatum() + "  ist korrekt");
+        }else{
+            actFrage.calcResults(false);
+            actFrage.setFeedbackString("" + lowestDate + "  ist falsch - Es wäre " + actFrage.getDatum() + " gewesen");
+        }
+    }
 }

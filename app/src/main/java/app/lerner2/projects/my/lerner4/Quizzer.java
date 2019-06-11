@@ -2,7 +2,6 @@ package app.lerner2.projects.my.lerner4;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -81,34 +80,42 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     public void neueFrage(){
         actFrage = new FrageDatum(this, this);
         tvFrage.setText(actFrage.getItem());
-        setUpButtonsMC();
+        setGui();
     }
 
-    public void setUpButtonsMC() {
+    private void setGui(){
+        switch (actFrage.getFrageModus()){
+            case "compare":
+                layLinksTop.setVisibility(View.GONE);
+                layRechtsTop.setVisibility(View.GONE);
+                setUpButtons();
+                break;
+            case "multiple":
+                layLinksTop.setVisibility(View.VISIBLE);
+                layRechtsTop.setVisibility(View.VISIBLE);
+                setUpButtons();
+                break;
+        }
+    }
+
+    public void setUpButtons() {
         String[] texts = actFrage.logic.getButtonTexts();
         for (int i = 0; i < texts.length; i++) {
             bChoice[i].setText(texts[i]);
         }
     }
 
-    private void hideButtons(){
-        layLinksTop.setVisibility(View.GONE);
-        layRechtsTop.setVisibility(View.GONE);
-    }
-
     private void evaluateButton(Button view) {
         Button bTemp = view;
         sButtText = bTemp.getText().toString();
-        boolean eingrenzung= actFrage.logic.checkAnswer(sButtText);
         tvInfo.performHapticFeedback(3);
 
-        if (eingrenzung) {      // Eingrenzungsantwort
+        if (actFrage.logic.qualifyAnswer((sButtText))) {      // Eingrenzungsantwort
             tvInfo.setText("Korrekt ");
-            setUpButtonsMC();
+            setUpButtons();
         } else{
-            String[] infoStrings = actFrage.logic.getRundenInfo();
-            onUpdateInfo(infoStrings);
-            tvInfo.setText(infoStrings[6]);
+            actFrage.logic.checkAnswer(sButtText);
+            onUpdateInfo();
             neueFrage();
         }
     }
@@ -122,14 +129,18 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public void onUpdateInfo(String[] infoStrings) {
-        tvO1.setText(infoStrings[0]);
-        tvO2.setText(infoStrings[1]);
-        tvu1.setText(infoStrings[2]);
-        tvu2.setText(infoStrings[3]);
-        tvu3.setText(infoStrings[4]);
-        tvu4.setText(infoStrings[5]);
-       // tvu5.setText(infoStrings[6]);
+    public void onUpdateInfo(){
+        MathStuff ms = new MathStuff();
+        if (!(actFrage == null)) {
+            tvO1.setText("Next: " + ms.getTimings(actFrage.getNext()));
+            tvO2.setText("Score: " + actFrage.getScore());
+            tvu1.setText("Counter");
+            tvu2.setText(""+actFrage.getCounter());
+            int[] metaStats = actFrage.getMetaStats();
+            tvu3.setText("g "  + metaStats[0]);
+            tvu4.setText("p "  + metaStats[1]);
+            tvInfo.setText(actFrage.getFeedbackString());
+        }
     }
 
     private void startBrowser() {

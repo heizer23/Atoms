@@ -70,7 +70,7 @@ public class FrageImage extends Fragment implements View.OnClickListener{
     private void neueFrage(){
     //    logic2 = new LogicMC10(this,this);
         new DownloadImageTask(imageView).execute("http://media.designerpages.com/3rings/wp-content/themes/3rings-otto/i/?w=546&h=346&src=http%3A%2F%2Fmedia.designerpages.com%2F3rings%2Fwp-content%2Fuploads%2F2010%2F07%2Fhyundai-s-kitchen-nano-garden-dp.jpg");
-        //setUpButtonsMC();
+        //setUpButtons();
         tvInfo.setText( MySingleton.getInstance().getInfo(sButtText));
     }
 
