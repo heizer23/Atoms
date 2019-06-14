@@ -1,15 +1,36 @@
 package app.lerner2.projects.my.lerner4;
 
-import android.app.Activity;
-import android.content.Context;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class LogicCompare implements Logic {
 
     private FrageDatum actFrage;
+    private FrageDatum actCompareFrage;
+    private List<FrageDatum> compareFragen = new ArrayList();
+    private List<Integer> questionIds = new ArrayList();
+
 
     public LogicCompare(FrageDatum actFrage) {
         this.actFrage = actFrage;
+        fillupFragen();
+    }
+
+    public String getQuestion(){
+        Collections.shuffle(compareFragen);
+        actCompareFrage = compareFragen.get(0);
+        return actFrage.getItem() + "\n \n war ??? als \n \n" + actCompareFrage.getItem();
+    }
+
+    private void fillupFragen(){
+        List<Integer> compIds  = actFrage.getComparableIds();
+
+        while(compIds.size()>0){
+            compareFragen.add(new FrageDatum(compIds.get(0), actFrage));
+            compIds.remove(0);
+        }
     }
 
     public String[] getButtonTexts() {
@@ -28,15 +49,32 @@ public class LogicCompare implements Logic {
     }
 
     public boolean qualifyAnswer(String answer){
-        return false;
+        if (checkAnswerInternal(answer)){
+            compareFragen.remove(actCompareFrage);
+        }
+        return compareFragen.size()>1;
     }
 
     public void checkAnswer( String answer){
-        if (1000 == actFrage.getDatum()){
+        if (checkAnswerInternal(answer)){
             actFrage.calcResults(true);
         }else{
             actFrage.calcResults(false);
         }
+    }
+
+    private boolean checkAnswerInternal(String answer){
+        //todo hier noch als Option "gleich" berücksichtigen
+        boolean isCorrect = false;
+
+                if(answer.equals("Früher") && actFrage.getDatum()<= actCompareFrage.getDatum() ||
+                answer.equals("Später") && actFrage.getDatum()> actCompareFrage.getDatum()){
+                    isCorrect = true;
+                    actFrage.setFeedbackString("Richtig: \n"+ actCompareFrage.getItem() + " war " + actCompareFrage.getDatum());
+                }else{
+                    actFrage.setFeedbackString("Falsch: \n" + actCompareFrage.getItem() + " war " + actCompareFrage.getDatum());
+                };
+        return isCorrect;
     }
 }
 

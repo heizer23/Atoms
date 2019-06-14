@@ -155,6 +155,19 @@ public class DbHelper extends DatabaseBase {
         return fragenId;
     }
 
+    public int[] getCompares(String relation, int Datum){
+        String order;
+        if(relation.equals("<")){
+            order = "desc";
+        }else{
+            order = "asc";
+        }
+        String sqlQuery= "select * from Events where Datum %s %d order by Datum %s limit 2";
+        sqlQuery = String.format(sqlQuery, relation, Datum, order);
+        return getIntsFromSQL(sqlQuery);
+    }
+
+
     public void saveOrt(int id, String ort){
         open();
         ContentValues values = new ContentValues();
@@ -223,15 +236,6 @@ public class DbHelper extends DatabaseBase {
         mythread.start();
     }
 
-    public void runSQL(String sqlString){
-        try {
-            mySQLDB.execSQL(sqlString);
-        } catch (SQLException e) {
-            String fehler = e.toString();
-            e.printStackTrace();
-        }
-    }
-
     public void linkItems(int erst, int zweit){
         open();
         ContentValues values = new ContentValues();
@@ -240,7 +244,6 @@ public class DbHelper extends DatabaseBase {
         addItem("links", values);
         close();
     }
-
 
     public int[] getLinks(int erst){
 
@@ -295,6 +298,36 @@ public class DbHelper extends DatabaseBase {
         return results;
     }
 
+
+    public int[] getRundenInfo(){
+        Time now = new Time();
+        now.setToNow();
+        long longTemp = now.toMillis(true)/1000;
+
+        String sqlString = "SELECT count(_id) from events where counter > 0 and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d and next < %d \n" +
+                "union all \n" +
+                "SELECT count(_id) from events where next > %d ";
+
+        sqlString = String.format(sqlString, longTemp,
+                longTemp, longTemp+60,
+                longTemp+60, longTemp+60*60,
+                longTemp+60*60, longTemp+60*60*24,
+                longTemp+60*60*24, longTemp+60*60*24*30,
+                longTemp+60*60*24*30, longTemp+60*60*24*365,
+                longTemp+60*60*24*365);
+
+        return getIntsFromSQL(sqlString);
+    }
 
 }
 

@@ -14,6 +14,9 @@ public class LogicMC10 implements Logic{
         rahmen= 1000;
     }
 
+    public String getQuestion(){
+        return actFrage.getItem();
+    }
     public String[] getButtonTexts() {
         int[] wert = new int[12];
         int multi;

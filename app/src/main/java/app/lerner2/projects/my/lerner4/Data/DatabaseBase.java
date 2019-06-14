@@ -236,6 +236,14 @@ public class DatabaseBase {
 		return result;
 	}
 
+	public void runSQL(String sqlString){
+		try {
+			mySQLDB.execSQL(sqlString);
+		} catch (SQLException e) {
+			String fehler = e.toString();
+			e.printStackTrace();
+		}
+	}
 
     public void deleteItem(String id) {
         try {

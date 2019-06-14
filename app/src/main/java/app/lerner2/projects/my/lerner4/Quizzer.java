@@ -3,14 +3,18 @@ package app.lerner2.projects.my.lerner4;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import app.lerner2.projects.my.lerner4.Data.DbHelper;
 
 
 public class Quizzer extends AppCompatActivity implements View.OnClickListener {
@@ -24,6 +28,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     private TextView tvu3;
     private TextView tvu4;
     private TextView tvu5;
+    private TextView tvu6;
 
     private TextView tvFrage;
     private TextView tvInfo;
@@ -37,6 +42,8 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     private String sButtText;
     private FrageDatum actFrage;
 
+    private DbHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +56,12 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         tvu3 = findViewById(R.id.tv_u3);
         tvu4 = findViewById(R.id.tv_u4);
         tvu5 = findViewById(R.id.tv_u5);
+        tvu6 = findViewById(R.id.tv_u6);
 
         act = this;
         ourContext = this ;
+        dbHelper = new DbHelper(this,this);
+
         tvFrage = findViewById(R.id.tvFrage);
         tvInfo = findViewById(R.id.tvInfo);
 
@@ -79,7 +89,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     public void neueFrage(){
         actFrage = new FrageDatum(this, this);
-        tvFrage.setText(actFrage.getItem());
+        tvFrage.setText(actFrage.logic.getQuestion());
         setGui();
     }
 
@@ -90,7 +100,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 layRechtsTop.setVisibility(View.GONE);
                 setUpButtons();
                 break;
-            case "multiple":
+            case "multipleChoice":
                 layLinksTop.setVisibility(View.VISIBLE);
                 layRechtsTop.setVisibility(View.VISIBLE);
                 setUpButtons();
@@ -111,7 +121,8 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         tvInfo.performHapticFeedback(3);
 
         if (actFrage.logic.qualifyAnswer((sButtText))) {      // Eingrenzungsantwort
-            tvInfo.setText("Korrekt ");
+            tvInfo.setText(actFrage.getFeedbackString());
+            tvFrage.setText(actFrage.logic.getQuestion());
             setUpButtons();
         } else{
             actFrage.logic.checkAnswer(sButtText);
@@ -134,11 +145,20 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         if (!(actFrage == null)) {
             tvO1.setText("Next: " + ms.getTimings(actFrage.getNext()));
             tvO2.setText("Score: " + actFrage.getScore());
-            tvu1.setText("Counter");
-            tvu2.setText(""+actFrage.getCounter());
-            int[] metaStats = actFrage.getMetaStats();
-            tvu3.setText("g "  + metaStats[0]);
-            tvu4.setText("p "  + metaStats[1]);
+         //   tvu1.setText("Counter");
+         //   tvu2.setText(""+actFrage.getCounter());
+         //   int[] metaStats = actFrage.getMetaStats();
+         //   tvu3.setText("g "  + metaStats[0]);
+         //   tvu4.setText("p "  + metaStats[1]);
+
+            int[] statusInfo = dbHelper.getRundenInfo();
+            tvu1.setText("C "+statusInfo[0]);
+            tvu2.setText("s "+statusInfo[1]);
+            tvu3.setText("m "+statusInfo[2]);
+            tvu4.setText("h "+statusInfo[3]);
+            tvu5.setText("d "+statusInfo[4]);
+            tvu6.setText("m "+statusInfo[5]);
+
             tvInfo.setText(actFrage.getFeedbackString());
         }
     }
