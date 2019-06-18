@@ -141,6 +141,23 @@ public class DbHelper extends DatabaseBase {
         update(id, values);
     }
 
+//    public void saveRound(int id, double score, long next, long last, double factorLin,
+//                          double factorexp, int result){
+//
+//        public static final String KEY_NEXT = "Next";
+//        public static final String KEY_SCORE = "Score";
+//        public static final String KEY_LASTDATE = "LastDate";
+//
+//
+//        int fragenId = id;
+//        double Score = score;
+//        long lastTime = last;
+//        long nextTime = next;
+//        double factorLin = factorLin;
+//        double factorExp = factorExp;
+//        int result = result;
+//
+//    }
 
     public int nextFrage(){
         Time now = new Time();
@@ -166,7 +183,6 @@ public class DbHelper extends DatabaseBase {
         sqlQuery = String.format(sqlQuery, relation, Datum, order);
         return getIntsFromSQL(sqlQuery);
     }
-
 
     public void saveOrt(int id, String ort){
         open();
@@ -279,6 +295,8 @@ public class DbHelper extends DatabaseBase {
         close();
         return dataResult;
     }
+
+
 
     public Cursor getNextEvents(){
         Time now = new Time();

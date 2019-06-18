@@ -146,7 +146,8 @@ public class OverviewActivity extends ListActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.seen:
-                whereSQL = "Next>-1";
+                //todo hier wieder die Sortierung nach Next reinbringen "Next>-1"
+                whereSQL = "Datum >-10000";
                 database.open();
                 cursor = database.getCursor(whereSQL, rechts);
                 database.close();
@@ -155,7 +156,7 @@ public class OverviewActivity extends ListActivity implements
                 setListAdapter(adapter);
                 return true;
             case R.id.new_ones:
-                whereSQL = "Next<1";
+                whereSQL = "Datum >-10000";
                 database.open();
                 String order = rechts;
                 cursor = database.getCursor(whereSQL, order);
@@ -301,7 +302,7 @@ public class OverviewActivity extends ListActivity implements
                 from = new String[]{links, mitte, rechts};
                 database.open();
 
-                String sqlSelect = "Next>0 ";
+                String sqlSelect = "Datum > -10000 ";
                 cursor = database.getCursor(sqlSelect, rechts);
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to,chosenId, connected);
@@ -326,7 +327,7 @@ public class OverviewActivity extends ListActivity implements
                 rechts = String.valueOf(spinnerRechts.getSelectedItem());
                 from = new String[]{links, mitte, rechts};
                 database.open();
-                    String sqlSelect2 = "Next<=0 ";
+                    String sqlSelect2 = "Next>10000 ";
                 cursor = database.getCursor(sqlSelect2, links);
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to,chosenId, connected);

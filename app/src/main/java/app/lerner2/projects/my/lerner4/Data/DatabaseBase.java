@@ -238,7 +238,9 @@ public class DatabaseBase {
 
 	public void runSQL(String sqlString){
 		try {
+			open();
 			mySQLDB.execSQL(sqlString);
+			close();
 		} catch (SQLException e) {
 			String fehler = e.toString();
 			e.printStackTrace();

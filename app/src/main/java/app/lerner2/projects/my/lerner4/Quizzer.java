@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DbRunden;
 
 
 public class Quizzer extends AppCompatActivity implements View.OnClickListener {
@@ -43,6 +44,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     private FrageDatum actFrage;
 
     private DbHelper dbHelper;
+    private DbRunden dbRunden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         act = this;
         ourContext = this ;
         dbHelper = new DbHelper(this,this);
+        dbRunden = new DbRunden(this,this);
 
         tvFrage = findViewById(R.id.tvFrage);
         tvInfo = findViewById(R.id.tvInfo);
@@ -151,7 +154,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
          //   tvu3.setText("g "  + metaStats[0]);
          //   tvu4.setText("p "  + metaStats[1]);
 
-            int[] statusInfo = dbHelper.getRundenInfo();
+            int[] statusInfo = dbRunden.getRundenInfo();
             tvu1.setText("C "+statusInfo[0]);
             tvu2.setText("s "+statusInfo[1]);
             tvu3.setText("m "+statusInfo[2]);
@@ -206,8 +209,19 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case  R.id.action_extra:
-                //DbHelper dbHelper1 = new DbHelper(this,this);
-                // dbHelper1.putInQuestions();
+                DbHelper dbHelper1 = new DbHelper(this,this);
+                String sqlQuery = "CREATE TABLE \"rounds\" (\n" +
+                        "\t\"_id\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                        "\t\"LastDate\"\tINT64,\n" +
+                        "\t\"Next\"\tINT64,\n" +
+                        "\t\"factorLin\"\tdouble,\n" +
+                        "\t\"factorExp\"\tdouble,\n" +
+                        "\t\"result\"\tint,\n" +
+                        "\t\"Score\"\tdouble DEFAULT 0,\n" +
+                        "\t\"fragenId\"\tdouble DEFAULT 0\n" +
+                        ");" ;
+
+                dbHelper1.runSQL(sqlQuery);
                 break;
         }
         return super.onOptionsItemSelected(item);
