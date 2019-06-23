@@ -17,7 +17,7 @@ import android.widget.ListView;
 import java.io.File;
 import java.util.ArrayList;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 
 public class LekAuswActiv extends Activity implements View.OnClickListener {
 
@@ -129,8 +129,8 @@ public class LekAuswActiv extends Activity implements View.OnClickListener {
     AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
         public boolean onItemLongClick(AdapterView<?> parent, View view,
                                        int position, long id) {
-            DbHelper datDb = new DbHelper(parent.getContext(), act);
-            datDb.newTable(datNames[position][0]);
+            DatabaseEvents dbEvents = new DatabaseEvents(parent.getContext(), act);
+            dbEvents.newTable(datNames[position][0]);
             finish();
             return false;
         }

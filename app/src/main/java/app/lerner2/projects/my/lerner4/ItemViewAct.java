@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 
 /**
  * Created by Philip on 07.06.2015.
@@ -14,7 +14,7 @@ public class ItemViewAct extends Activity{
 
     EditText tv1, tv2, tv3, tv4;
     EditText etItem, etAnswer;
-    DbHelper dbHelper;
+    DatabaseEvents dbHelper;
     String[] data;
 
     @Override
@@ -32,7 +32,7 @@ public class ItemViewAct extends Activity{
         Intent intent = getIntent();
         int id = intent.getIntExtra("_id", 1);
 
-        dbHelper = new DbHelper(this,this);
+        dbHelper = new DatabaseEvents(this,this);
         dbHelper.open();
         data = dbHelper.getItemSQL("_id = "+ id, null);
         dbHelper.close();

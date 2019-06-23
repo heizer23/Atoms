@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 
 
 public class SplashActiv extends Activity {
@@ -44,30 +44,35 @@ public class SplashActiv extends Activity {
 
         Thread timer = new Thread() {
             public void run() {
-                DbHelper dbHelper = new DbHelper(ourContext, act);
-                dbHelper.checkDB();
+                DatabaseEvents dbEvents = new DatabaseEvents(ourContext, act);
+                dbEvents.checkDB();
                 if (myPrefs.getBoolean("firstStart", true) || reset==1) {
 
-                    dbHelper.createNewDataBase();
+                    dbEvents.createNewDataBase();
                     SharedPreferences.Editor prefsEditor = myPrefs.edit();
                     prefsEditor.putBoolean("firstStart", false);
                     prefsEditor.commit();
-                   // dbHelper.checkDB();
+                   // dbEvents.checkDB();
                 }
                 switch (activityId) {
                     case 1:
-                      //  dbHelper.checkDB();
-                        dbHelper.open();
-                        MySingleton.getInstance().setCount(dbHelper.getCount());
-                        dbHelper.close();
+                      //  dbEvents.checkDB();
+                        dbEvents.open();
+                        MySingleton.getInstance().setCount(dbEvents.getCount());
+
+                        DatabaseEvents dbe = new DatabaseEvents(ourContext, act);
+
+                        dbe.open();
+                        int temp = dbe.getCount();
+                        dbEvents.close();
                         Intent openLerner1 = new Intent("lerner.lerner.QUIZZER");
                         startActivity(openLerner1);
                         break;
                     case 2:
-                        dbHelper.open();
-                        Cursor cursor = dbHelper.getCursor("_id < 10 ", "_id");
+                        dbEvents.open();
+                        Cursor cursor = dbEvents.getCursor("_id < 10 ", "_id");
                         String[] fields = {"_id", "Item"};
-                        String[][] data = dbHelper.getAllOfCursor(cursor,fields);
+                        String[][] data = dbEvents.getAllOfCursor(cursor,fields);
                         int nla = 2;
                         break;
 

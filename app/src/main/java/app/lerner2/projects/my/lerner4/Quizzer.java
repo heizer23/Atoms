@@ -3,10 +3,8 @@ package app.lerner2.projects.my.lerner4;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +12,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
-import app.lerner2.projects.my.lerner4.Data.DbRunden;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 
 public class Quizzer extends AppCompatActivity implements View.OnClickListener {
@@ -43,8 +41,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     private String sButtText;
     private FrageDatum actFrage;
 
-    private DbHelper dbHelper;
-    private DbRunden dbRunden;
+    private DatabaseEvents dbEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +59,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
         act = this;
         ourContext = this ;
-        dbHelper = new DbHelper(this,this);
-        dbRunden = new DbRunden(this,this);
+        dbEvents = new DatabaseEvents(this,this);
 
         tvFrage = findViewById(R.id.tvFrage);
         tvInfo = findViewById(R.id.tvInfo);
@@ -154,7 +150,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
          //   tvu3.setText("g "  + metaStats[0]);
          //   tvu4.setText("p "  + metaStats[1]);
 
-            int[] statusInfo = dbRunden.getRundenInfo();
+            int[] statusInfo = dbEvents.getRundenInfo();
             tvu1.setText("C "+statusInfo[0]);
             tvu2.setText("s "+statusInfo[1]);
             tvu3.setText("m "+statusInfo[2]);
@@ -209,7 +205,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case  R.id.action_extra:
-                DbHelper dbHelper1 = new DbHelper(this,this);
+                DatabaseHelper databaseHelper1 = new DatabaseHelper(this,this);
                 String sqlQuery = "CREATE TABLE \"rounds\" (\n" +
                         "\t\"_id\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                         "\t\"LastDate\"\tINT64,\n" +
@@ -221,7 +217,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                         "\t\"fragenId\"\tdouble DEFAULT 0\n" +
                         ");" ;
 
-                dbHelper1.runSQL(sqlQuery);
+                databaseHelper1.runSQL(sqlQuery);
                 break;
         }
         return super.onOptionsItemSelected(item);

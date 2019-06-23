@@ -6,12 +6,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 
 public class TimingListAct extends ListActivity {
 
     private Resources res;
-    private DbHelper dbHelper;
+    private DatabaseEvents dbEvents;
     private String[] from = {"_id","Item", "Next"};
     private int[] to = new int[]{R.id.label, R.id.label2, R.id.label3};
     private TimingListAdapter adapter;
@@ -31,13 +31,13 @@ public class TimingListAct extends ListActivity {
         Thread.setDefaultUncaughtExceptionHandler(new CustomExceptionHandler(
                 res.getString(R.string.PathCrashReport), null));
 
-        dbHelper = new DbHelper(this,this);
-        dbHelper.open();
-        Cursor cursor = dbHelper.getNextEvents();
+        dbEvents = new DatabaseEvents(this,this);
+        dbEvents.open();
+        Cursor cursor = dbEvents.getNextEvents();
         adapter = new TimingListAdapter(this, R.layout.todo_row, cursor,
                 from, to);
         setListAdapter(adapter);
-        dbHelper.close();
+        dbEvents.close();
 
     }
 }

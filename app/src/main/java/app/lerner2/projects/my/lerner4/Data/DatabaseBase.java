@@ -57,8 +57,8 @@ public class DatabaseBase {
 	SQLiteDatabase mySQLDB;
 	DbHelper ourHelper;
 
-    static final String TABLE_EVENTS = "Events";
-    public static final String TABLE_RUNDEN = "runden";
+
+
 
 	public DatabaseBase(Context c, Activity act) {
 		ourContext = c;
@@ -77,10 +77,10 @@ public class DatabaseBase {
         return this;
     }
 
-    public void update(int id, ContentValues values) {
+    public void update(String table, int id, ContentValues values) {
         ourHelper = new DbHelper(ourContext);
         mySQLDB = ourHelper.getWritableDatabase();
-        mySQLDB.update(TABLE_EVENTS, values, KEY_ROWID + "=" + id, null);
+        mySQLDB.update(table, values, KEY_ROWID + "=" + id, null);
         mySQLDB.close();
     }
 
@@ -269,5 +269,11 @@ public class DatabaseBase {
         mySQLDB = ourHelper.getWritableDatabase();
         return mySQLDB;
     }
+
+	public Cursor getCursor(String table, String[] columns, String whereSQL, String order) {
+		Cursor c = mySQLDB.query(table, columns, whereSQL, null,
+				null, null, order);
+		return c;
+	}
 
 }

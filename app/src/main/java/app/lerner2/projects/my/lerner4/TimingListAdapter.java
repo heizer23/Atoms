@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 public class TimingListAdapter extends SimpleCursorAdapter {
 
@@ -53,7 +53,7 @@ public class TimingListAdapter extends SimpleCursorAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         int id;
-        int iRow = cursor.getColumnIndex(DbHelper.KEY_ROWID);
+        int iRow = cursor.getColumnIndex(DatabaseHelper.KEY_ROWID);
 
         if (convertView == null) {
             convertView = mInflater.inflate(layout, null);

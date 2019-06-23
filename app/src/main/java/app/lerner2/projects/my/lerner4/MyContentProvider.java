@@ -13,13 +13,14 @@ import android.text.TextUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 
 public class MyContentProvider extends ContentProvider {
 
 	// database
-	private DbHelper database;
+	private DatabaseHelper database;
     public static final String DB_TABLE = "Events";
 	// Used for the UriMacher
 	private static final int TODOS = 10;
@@ -47,7 +48,7 @@ public class MyContentProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		database = new DbHelper(getContext(), null);
+		database = new DatabaseHelper(getContext(), null);
 		return false;
 	}
 
@@ -161,9 +162,9 @@ public class MyContentProvider extends ContentProvider {
 	}
 
 	private void checkColumns(String[] projection) {
-		String[] available = { DbHelper.KEY_ROWID, DbHelper.KEY_ITEM,
-				DbHelper.KEY_DATUM, DbHelper.KEY_SCORE, DbHelper.KEY_INFO,
-				DbHelper.KEY_NEXT, DbHelper.KEY_COUNTER };
+		String[] available = { DatabaseEvents.KEY_ROWID, DatabaseEvents.KEY_ITEM,
+				DatabaseEvents.KEY_DATUM, DatabaseEvents.KEY_SCORE, DatabaseEvents.KEY_INFO,
+				DatabaseEvents.KEY_NEXT, DatabaseEvents.KEY_COUNTER };
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(
 					Arrays.asList(projection));

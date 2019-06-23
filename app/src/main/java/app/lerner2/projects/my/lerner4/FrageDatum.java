@@ -5,16 +5,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.format.Time;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseRunden;
 
 public class FrageDatum {
 
-    private DbHelper dbHelper;
+    private DatabaseEvents dbEvents;
+    private DatabaseRunden dbRunden;
     private Context c;
     private Activity act;
     private int id;
@@ -34,11 +35,12 @@ public class FrageDatum {
     public FrageDatum(Context c, Activity act) {
         this.c = c;
         this.act = act;
-        dbHelper = new DbHelper(c,act);
-        dbHelper.open();
-        id = dbHelper.nextFrage();
-        String[] values = dbHelper.getFrageInfos(id);
-        dbHelper.close();
+        dbEvents = new DatabaseEvents(c,act);
+        dbRunden = new DatabaseRunden(c, act);
+        dbEvents.open();
+        id = dbEvents.nextFrage();
+        String[] values = dbEvents.getFrageInfos(id);
+        dbEvents.close();
 
         item = values[1];
         datum = Integer.parseInt(values[2]);
@@ -46,7 +48,7 @@ public class FrageDatum {
         score = Double.parseDouble(values[4]);
         counter = Integer.parseInt(values[5]);
         url = values[6];
-        if(counter >6 && score ==0){
+        if(counter >6 && score ==-1){
         //if(true){
             frageModus= "compare";
             counter =0;
@@ -58,10 +60,10 @@ public class FrageDatum {
     }
 
     public FrageDatum(int id, FrageDatum parentFrage) {
-        dbHelper = new DbHelper(parentFrage.getC(),parentFrage.getAct());
-        dbHelper.open();
-        String[] values = dbHelper.getFrageInfos(id);
-        dbHelper.close();
+        dbEvents = new DatabaseEvents(parentFrage.getC(),parentFrage.getAct());
+        dbEvents.open();
+        String[] values = dbEvents.getFrageInfos(id);
+        dbEvents.close();
 
         item = values[1];
         datum = Integer.parseInt(values[2]);
@@ -75,16 +77,16 @@ public class FrageDatum {
     public List<Integer> getComparableIds(){
         List<Integer> results = new ArrayList<>();
         int[] temp;
-        dbHelper.open();
-        temp = dbHelper.getCompares("<", datum);
+        dbEvents.open();
+        temp = dbEvents.getCompares("<", datum);
         for(int i = 0; i< temp.length; i++){
             results.add(temp[i]);
         }
-        temp = dbHelper.getCompares(">", datum);
+        temp = dbEvents.getCompares(">", datum);
         for(int i = 0; i< temp.length; i++){
             results.add(temp[i]);
         }
-        dbHelper.close();
+        dbEvents.close();
         Collections.shuffle(results);
         return results;
     }
@@ -106,7 +108,8 @@ public class FrageDatum {
         now.setToNow();
         long thisTime = now.toMillis(true)/1000;
         next = thisTime + vorschub;
-        dbHelper.saveResults(id, score, next,thisTime, counter);
+        dbEvents.saveResults(id, score, next,thisTime, counter);
+        dbRunden.addRound(id, vorschub,score);
     }
 
     public int getDatum() {
@@ -142,9 +145,9 @@ public class FrageDatum {
     }
 
     public int[] getMetaStats() {
-        dbHelper.open();
-        metaStats = dbHelper.getCountStats();
-        dbHelper.close();
+        dbEvents.open();
+        metaStats = dbEvents.getCountStats();
+        dbEvents.close();
         return metaStats;
     }
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 /**
  * Created by Philip on 19.07.2015.
@@ -34,10 +34,10 @@ public class SQL_Activ extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.butExecute:
-                DbHelper dbHelper = new DbHelper(this,this);
-                dbHelper.open();
-                dbHelper.runSQL(etSQL.getText().toString());
-                dbHelper.close();
+                DatabaseHelper databaseHelper = new DatabaseHelper(this,this);
+                databaseHelper.open();
+                databaseHelper.runSQL(etSQL.getText().toString());
+                databaseHelper.close();
                 break;
             case R.id.butExport:
                 Utilities uts = new Utilities(this);

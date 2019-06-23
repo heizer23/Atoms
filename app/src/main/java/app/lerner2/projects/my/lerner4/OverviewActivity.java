@@ -26,7 +26,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 public class OverviewActivity extends ListActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
@@ -37,7 +38,7 @@ public class OverviewActivity extends ListActivity implements
     private static final int DELETE_ID = Menu.FIRST + 4;
     private String[] from = new String[]{"Datum", "Item", "Next"};
     private int[] to = new int[]{R.id.label, R.id.label2, R.id.label3};
-    private DbHelper database;
+    private DatabaseEvents dbEvents;
     private Cursor cursor;
     private boolean newStart = true;
     // private Cursor cursor;
@@ -64,10 +65,10 @@ public class OverviewActivity extends ListActivity implements
 
 
     private void getConnected(int auswahl){
-        DbHelper dbHelper = new DbHelper(this, this);
-        dbHelper.open();
-        connected =dbHelper.getLinks(auswahl);
-        dbHelper.close();
+        DatabaseHelper databaseHelper = new DatabaseHelper(this, this);
+        databaseHelper.open();
+        connected = databaseHelper.getLinks(auswahl);
+        databaseHelper.close();
     }
 
     @Override
@@ -85,13 +86,13 @@ public class OverviewActivity extends ListActivity implements
 
         registerForContextMenu(listView);
 
-        database = new DbHelper(this, this);
-        database.open();
+        dbEvents = new DatabaseEvents(this, this);
+        dbEvents.open();
         spinnerMitte = (Spinner) findViewById(R.id.spinnerMitte);
         spinnerLinks = (Spinner) findViewById(R.id.spinnerLinks);
         etNameOrInfo = (EditText) findViewById(R.id.etNameOrInfo);
 
-        String itemVorwahl = database.getItemSQL("_id = " + chosenId, null)[1];
+        String itemVorwahl = dbEvents.getItemSQL("_id = " + chosenId, null)[1];
         etNameOrInfo.setText(itemVorwahl);
         getConnected(chosenId);
         setSpinner();
@@ -132,10 +133,10 @@ public class OverviewActivity extends ListActivity implements
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMitte.setAdapter(dataAdapterMitte);
         whereSQL = "Next>-1";
-        database.open();
-        cursor = database.getCursor(whereSQL, rechts);
+        dbEvents.open();
+        cursor = dbEvents.getCursor(whereSQL, rechts);
         cursor.moveToFirst();
-        database.close();
+        dbEvents.close();
         adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                 from, to, chosenId, connected);
         setListAdapter(adapter);
@@ -148,19 +149,19 @@ public class OverviewActivity extends ListActivity implements
             case R.id.seen:
                 //todo hier wieder die Sortierung nach Next reinbringen "Next>-1"
                 whereSQL = "Datum >-10000";
-                database.open();
-                cursor = database.getCursor(whereSQL, rechts);
-                database.close();
+                dbEvents.open();
+                cursor = dbEvents.getCursor(whereSQL, rechts);
+                dbEvents.close();
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to,chosenId, connected);
                 setListAdapter(adapter);
                 return true;
             case R.id.new_ones:
                 whereSQL = "Datum >-10000";
-                database.open();
+                dbEvents.open();
                 String order = rechts;
-                cursor = database.getCursor(whereSQL, order);
-                database.close();
+                cursor = dbEvents.getCursor(whereSQL, order);
+                dbEvents.close();
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to, chosenId,connected);
                 setListAdapter(adapter);
@@ -216,8 +217,8 @@ public class OverviewActivity extends ListActivity implements
             case SELECT_ID:
                 return true;
             case CONNECT_ID:
-                DbHelper dbHelper =  new DbHelper(this,this);
-                dbHelper.linkItems(chosenId, (int)info.id);
+                DatabaseHelper databaseHelper =  new DatabaseHelper(this,this);
+                databaseHelper.linkItems(chosenId, (int)info.id);
                 getConnected(chosenId);
                 adapter.setConnected(chosenId,  connected);
                   getListView().invalidateViews();
@@ -230,9 +231,9 @@ public class OverviewActivity extends ListActivity implements
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        database.open();
-        String itemVorwahl = database.getItemSQL("_id = " + id, null)[1];
-        database.close();
+        dbEvents.open();
+        String itemVorwahl = dbEvents.getItemSQL("_id = " + id, null)[1];
+        dbEvents.close();
         etNameOrInfo.setText(itemVorwahl);
         chosenId = (int)id;
         getConnected(chosenId);
@@ -244,11 +245,11 @@ public class OverviewActivity extends ListActivity implements
         }
 
     private void fillDataIds(String fragenIds) {
-        database.open();
-        cursor = database.getCursor(fragenIds, "Next");
+        dbEvents.open();
+        cursor = dbEvents.getCursor(fragenIds, "Next");
         Toast.makeText(this.getApplicationContext(), "COUNT: " + cursor.getCount(),
                 Toast.LENGTH_LONG).show();
-        database.close();
+        dbEvents.close();
         adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                 from, to,chosenId, connected);
         setListAdapter(adapter);
@@ -268,9 +269,9 @@ public class OverviewActivity extends ListActivity implements
     // Creates a new loader after the initLoader () call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {DbHelper.KEY_ROWID, DbHelper.KEY_ITEM,
-                DbHelper.KEY_DATUM, DbHelper.KEY_SCORE, DbHelper.KEY_INFO
-               , DbHelper.KEY_COUNTER, DbHelper.KEY_NEXT
+        String[] projection = {DatabaseEvents.KEY_ROWID, DatabaseEvents.KEY_ITEM,
+                DatabaseEvents.KEY_DATUM, DatabaseEvents.KEY_SCORE, DatabaseEvents.KEY_INFO
+               , DatabaseEvents.KEY_COUNTER, DatabaseEvents.KEY_NEXT
                };
         CursorLoader cursorLoader = new CursorLoader(this,
                 MyContentProvider.CONTENT_URI, projection, null, null,
@@ -300,39 +301,39 @@ public class OverviewActivity extends ListActivity implements
                 mitte = String.valueOf(spinnerMitte.getSelectedItem());
                 rechts = String.valueOf(spinnerRechts.getSelectedItem());
                 from = new String[]{links, mitte, rechts};
-                database.open();
+                dbEvents.open();
 
                 String sqlSelect = "Datum > -10000 ";
-                cursor = database.getCursor(sqlSelect, rechts);
+                cursor = dbEvents.getCursor(sqlSelect, rechts);
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to,chosenId, connected);
                 setListAdapter(adapter);
-                database.close();
+                dbEvents.close();
                 break;
             case R.id.spinnerMitte:
                 links = String.valueOf(spinnerLinks.getSelectedItem());
                 mitte = String.valueOf(spinnerMitte.getSelectedItem());
                 rechts = String.valueOf(spinnerRechts.getSelectedItem());
                 from = new String[]{links, mitte, rechts};
-                database.open();
-                cursor = database.getCursor(whereSQL, mitte);
+                dbEvents.open();
+                cursor = dbEvents.getCursor(whereSQL, mitte);
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to, chosenId,connected);
                 setListAdapter(adapter);
-                database.close();
+                dbEvents.close();
                 break;
             case R.id.spinnerLinks:
                 links = String.valueOf(spinnerLinks.getSelectedItem());
                 mitte = String.valueOf(spinnerMitte.getSelectedItem());
                 rechts = String.valueOf(spinnerRechts.getSelectedItem());
                 from = new String[]{links, mitte, rechts};
-                database.open();
+                dbEvents.open();
                     String sqlSelect2 = "Next>10000 ";
-                cursor = database.getCursor(sqlSelect2, links);
+                cursor = dbEvents.getCursor(sqlSelect2, links);
                 adapter = new AdapterOverview(this, R.layout.todo_row, cursor,
                         from, to,chosenId, connected);
                 setListAdapter(adapter);
-                database.close();
+                dbEvents.close();
 
 
             break;

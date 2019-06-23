@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import app.lerner2.projects.my.lerner4.Data.DbHelper;
+import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 
 public class SimpleBrowserActiv extends Activity {
 
@@ -33,9 +33,9 @@ public class SimpleBrowserActiv extends Activity {
 
     @Override
     public void onBackPressed() {
-        DbHelper dataBase = new DbHelper(this, this);
+        DatabaseEvents dbEvents = new DatabaseEvents(this, this);
         String temp = ourBrow.getUrl();
-        dataBase.saveOrt(id, ourBrow.getUrl());
+        dbEvents.saveOrt(id, ourBrow.getUrl());
         finish();
     }
 
