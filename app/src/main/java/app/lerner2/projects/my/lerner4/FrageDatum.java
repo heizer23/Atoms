@@ -32,13 +32,17 @@ public class FrageDatum {
     public Logic logic;
 
 
-    public FrageDatum(Context c, Activity act) {
+    public FrageDatum(Context c, Activity act, Integer idFrage) {
         this.c = c;
         this.act = act;
         dbEvents = new DatabaseEvents(c,act);
         dbRunden = new DatabaseRunden(c, act);
         dbEvents.open();
-        id = dbEvents.nextFrage();
+        if (idFrage == null){
+            this.id = dbEvents.nextFrage();
+        }else{
+            this.id = idFrage;
+        }
         String[] values = dbEvents.getFrageInfos(id);
         dbEvents.close();
 
@@ -51,7 +55,6 @@ public class FrageDatum {
         if(counter >6 && score ==-1){
         //if(true){
             frageModus= "compare";
-            counter =0;
             logic = new LogicCompare(this);
         }else{
             frageModus= "multipleChoice";
@@ -108,8 +111,12 @@ public class FrageDatum {
         now.setToNow();
         long thisTime = now.toMillis(true)/1000;
         next = thisTime + vorschub;
-        dbEvents.saveResults(id, score, next,thisTime, counter);
+        dbEvents.saveResults(id, score, next,thisTime, url, counter);
         dbRunden.addRound(id, vorschub,score);
+    }
+
+    public void saveInfos(){
+        dbEvents.saveInfos(id, score, item, datum, url);
     }
 
     public int getDatum() {
@@ -136,19 +143,8 @@ public class FrageDatum {
         return next;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
     public String getFrageModus() {
         return frageModus;
-    }
-
-    public int[] getMetaStats() {
-        dbEvents.open();
-        metaStats = dbEvents.getCountStats();
-        dbEvents.close();
-        return metaStats;
     }
 
     public String[] getUrl() {
@@ -169,6 +165,23 @@ public class FrageDatum {
 
     public void setFeedbackString(String feedbackString) {
         this.feedbackString = feedbackString;
+    }
+
+    public void setUrl(String url) {
+        dbEvents.saveOrt(id, url);
+        this.url = url;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
+    public void setDatum(int datum) {
+        this.datum = datum;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public Context getC() {

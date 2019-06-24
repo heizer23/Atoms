@@ -46,7 +46,7 @@ public class DatabaseEvents extends DatabaseHelper {
         return count;
     }
 
-    public void saveResults(int id, double score, long next, long last, int counter){
+    public void saveResults(int id, double score, long next, long last, String url, int counter){
 
         Time now = new Time();
         now.setToNow();
@@ -58,6 +58,16 @@ public class DatabaseEvents extends DatabaseHelper {
         values.put(KEY_NEXT, next);
         values.put(KEY_COUNTER, counter);
         values.put(KEY_LASTDATE, last);
+        values.put(KEY_ORT, url);
+        update(TABLE_EVENTS, id, values);
+    }
+
+    public void saveInfos(int id, double score, String item, int datum, String url){
+        ContentValues values = new ContentValues();
+        values.put(KEY_SCORE, score);
+        values.put(KEY_ITEM, item);
+        values.put(KEY_DATUM, datum);
+        values.put(KEY_ORT, url);
         update(TABLE_EVENTS, id, values);
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,7 +88,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void neueFrage(){
-        actFrage = new FrageDatum(this, this);
+        actFrage = new FrageDatum(this, this, null);
         tvFrage.setText(actFrage.logic.getQuestion());
         setGui();
     }
@@ -144,11 +145,6 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         if (!(actFrage == null)) {
             tvO1.setText("Next: " + ms.getTimings(actFrage.getNext()));
             tvO2.setText("Score: " + actFrage.getScore());
-         //   tvu1.setText("Counter");
-         //   tvu2.setText(""+actFrage.getCounter());
-         //   int[] metaStats = actFrage.getMetaStats();
-         //   tvu3.setText("g "  + metaStats[0]);
-         //   tvu4.setText("p "  + metaStats[1]);
 
             int[] statusInfo = dbEvents.getRundenInfo();
             tvu1.setText("C "+statusInfo[0]);
@@ -168,7 +164,22 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         intent.putExtra("id", Integer.parseInt(urlInfo[0]));
         intent.putExtra("url", urlInfo[1]);
         intent.setClass(ourContext, SimpleBrowserActiv.class);
-        startActivity(intent);
+        // startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String url=data.getStringExtra("Url");
+                actFrage.setUrl(url);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     @Override
@@ -205,19 +216,9 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case  R.id.action_extra:
-                DatabaseHelper databaseHelper1 = new DatabaseHelper(this,this);
-                String sqlQuery = "CREATE TABLE \"rounds\" (\n" +
-                        "\t\"_id\"\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                        "\t\"LastDate\"\tINT64,\n" +
-                        "\t\"Next\"\tINT64,\n" +
-                        "\t\"factorLin\"\tdouble,\n" +
-                        "\t\"factorExp\"\tdouble,\n" +
-                        "\t\"result\"\tint,\n" +
-                        "\t\"Score\"\tdouble DEFAULT 0,\n" +
-                        "\t\"fragenId\"\tdouble DEFAULT 0\n" +
-                        ");" ;
-
-                databaseHelper1.runSQL(sqlQuery);
+                intent = new Intent(this, ItemViewAct.class);
+                intent.putExtra("_id", actFrage.getId());
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

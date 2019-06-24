@@ -1,6 +1,7 @@
 package app.lerner2.projects.my.lerner4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -43,9 +44,10 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        DatabaseEvents dbEvents = new DatabaseEvents(this, this);
-        String temp = ourBrow.getUrl();
-        dbEvents.saveOrt(id, ourBrow.getUrl());
+        String url = ourBrow.getUrl();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("Url",url);
+        setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
 

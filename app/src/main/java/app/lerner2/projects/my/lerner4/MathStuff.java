@@ -53,18 +53,39 @@ public class MathStuff {
 
     }
 
-    public long getVorschub(double score, int counter){
+    public long getVorschubalt(double score, int counter){
      //   double verlaufFaktor = Math.round(score/counter*10)/10.0;
         double verlaufFaktor = 1;
-
+        long vorschub;
         int lin = MySingleton.getInstance().getVorschubLin();
         double exp = MySingleton.getInstance().getVorschubExp()/10;
 
         if(verlaufFaktor<0.1)verlaufFaktor=0.1;
-
-        long vorschub = (long)(Math.pow(verlaufFaktor, 3)*(score*lin)*( Math.pow(exp, score)));
+        if (score <1){
+            vorschub = 0;
+        }else{
+            vorschub = 10*(long)(Math.pow(verlaufFaktor, 3)*(score*lin/2)+( Math.pow(exp, score)));
+        }
         Log.d("vs", "VS " + vorschub);
         return vorschub;
     }
+
+    public long getVorschub(double score, int counter){
+        //   double verlaufFaktor = Math.round(score/counter*10)/10.0;
+        double verlaufFaktor = 1;
+        long vorschub;
+        int lin = MySingleton.getInstance().getVorschubLin();
+        double exp = MySingleton.getInstance().getVorschubExp()/10;
+
+        if(verlaufFaktor<0.1)verlaufFaktor=0.1;
+        if (score <1){
+            vorschub = 0;
+        }else{
+            vorschub = 10*(long)(Math.pow(verlaufFaktor, 3)*(score*lin/2)+( Math.pow(exp, score)));
+        }
+        Log.d("vs", "VS " + vorschub);
+        return vorschub;
+    }
+
 
 }

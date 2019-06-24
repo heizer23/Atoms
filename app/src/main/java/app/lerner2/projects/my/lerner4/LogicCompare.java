@@ -57,7 +57,7 @@ public class LogicCompare implements Logic {
 
     public void checkAnswer( String answer){
         if (checkAnswerInternal(answer)){
-            actFrage.calcResults(true);
+            actFrage.calcResults(false);
         }else{
             actFrage.calcResults(false);
         }
