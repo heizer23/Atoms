@@ -25,6 +25,7 @@ public class FrageDatum {
     private double score;
     private int counter;
     private String url;
+    private long lastDate;
     private String status = "unbeantwortet";
     private int[] metaStats;
     private String feedbackString;
@@ -60,6 +61,7 @@ public class FrageDatum {
             frageModus= "multipleChoice";
             logic = new LogicMC10(this);
         }
+        lastDate = Long.parseLong(values[7]);
     }
 
     public FrageDatum(int id, FrageDatum parentFrage) {
@@ -95,23 +97,31 @@ public class FrageDatum {
     }
 
     public void calcResults(boolean richtig){
+        Time time = new Time();
+        time.setToNow();
+        long now = time.toMillis(true)/1000;
+
         MathStuff Ms = new MathStuff();
         long vorschub;
         if(richtig){
             status = "richtig";
             score = score+1;
+            if(counter == 0){
+                vorschub = 60*60*24;
+            }else{
+                vorschub = (now - lastDate) * MySingleton.getInstance().getVorschubLin();
+            }
         }else{
             status = "falsch";
             score = 0;
+            vorschub = 0;
         }
         counter = counter+1;
-        vorschub =  Ms.getVorschub(score, counter);
+       // vorschub =  Ms.getVorschub(score, counter);
 
-        Time now = new Time();
-        now.setToNow();
-        long thisTime = now.toMillis(true)/1000;
-        next = thisTime + vorschub;
-        dbEvents.saveResults(id, score, next,thisTime, url, counter);
+
+        next = now + vorschub;
+        dbEvents.saveResults(id, score, next,now, url, counter);
         dbRunden.addRound(id, vorschub,score);
     }
 

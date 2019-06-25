@@ -30,7 +30,7 @@ public class DatabaseEvents extends DatabaseHelper {
     public static final String KEY_ORT = "Ort";
     public static final String KEY_LASTDATE = "LastDate";
 
-    String[] columnsLektion = { KEY_ROWID, KEY_NEXT, KEY_SCORE, KEY_DATUM, KEY_ITEM, KEY_COUNTER,  KEY_ORT};
+    String[] columnsLektion = { KEY_ROWID, KEY_NEXT, KEY_SCORE, KEY_DATUM, KEY_ITEM, KEY_COUNTER,  KEY_ORT, KEY_LASTDATE};
 
     public DatabaseEvents(Context c, Activity act) {
         super(c, act);
@@ -144,7 +144,7 @@ public class DatabaseEvents extends DatabaseHelper {
     }
 
     public String[] getFrageInfos(int fragenId){
-        String[] fragenFelder = {"_id", "Item", "Datum", "Next", "Score", "Counter", "Ort"};
+        String[] fragenFelder = {"_id", "Item", "Datum", "Next", "Score", "Counter", "Ort", KEY_LASTDATE};
         Cursor c = mySQLDB.query(TABLE_EVENTS, columnsLektion, "_id = "+ fragenId, null,
                 null, null, null);
         String[] results = getFirstOfCursor(c, fragenFelder);
