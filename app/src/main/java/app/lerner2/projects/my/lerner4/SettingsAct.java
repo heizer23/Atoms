@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -201,7 +200,7 @@ public class SettingsAct extends Activity implements OnClickListener,
             if(nextTime > hundredYearsInSecs){
                 i=41;
             }else{
-                timingString = Ms.getTimings(nextTime);
+                timingString = Ms.getTimingRelative(nextTime);
                 out = out + "\n  Score:" + score + ": " + timingString;
             }
         }

@@ -51,7 +51,8 @@ public class FrageDatum {
         datum = Integer.parseInt(values[2]);
         next = Long.parseLong(values[3]);
         score = Double.parseDouble(values[4]);
-        counter = Integer.parseInt(values[5]);
+        String temp = values[5];
+        counter = Integer.parseInt(temp);
         url = values[6];
         if(counter >6 && score ==-1){
         //if(true){
@@ -100,7 +101,7 @@ public class FrageDatum {
         Time time = new Time();
         time.setToNow();
         long now = time.toMillis(true)/1000;
-
+        long delta = 0;
         MathStuff Ms = new MathStuff();
         long vorschub;
         if(richtig){
@@ -108,18 +109,24 @@ public class FrageDatum {
             score = score+1;
             if(counter == 0){
                 vorschub = 60*60*24;
+                delta = vorschub;
             }else{
                 vorschub = (now - lastDate) * MySingleton.getInstance().getVorschubLin();
+                delta = vorschub;
             }
         }else{
             status = "falsch";
             score = 0;
+            if(counter == 0){
+                delta = 0;
+            }else{
+                delta = -(now - lastDate);
+            }
             vorschub = 0;
         }
         counter = counter+1;
-       // vorschub =  Ms.getVorschub(score, counter);
 
-
+        MySingleton.getInstance().setDelta(delta);
         next = now + vorschub;
         dbEvents.saveResults(id, score, next,now, url, counter);
         dbRunden.addRound(id, vorschub,score);

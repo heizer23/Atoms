@@ -1,6 +1,7 @@
 package app.lerner2.projects.my.lerner4;
 
 import android.os.Environment;
+import android.text.format.Time;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,11 +27,12 @@ public class MySingleton {
     "false","false","false","false","false","false","false","false"};
     private int deltaUWF = 0;
     private int rundeGlob = 0;
-    private int VorschubLin = 47;
+    private int VorschubLin = 3;
     private int VorschubExp = 41;
     private int onlyTop2 = 0;
     private int onlyBottom2 = 0;
     private int vorschubGrenze = 10;
+    private long delta = 0;
     private Vector<String[]> sqlQueries = new Vector<String[]>();
 
     public String vorschubText = "";
@@ -70,8 +72,13 @@ public class MySingleton {
         this.count = count;
     }
 
+    public long getDelta() {
+        return delta;
+    }
 
-
+    public void setDelta(long deltaNeu) {
+        delta = delta + deltaNeu;
+    }
 
     private MySingleton() {
         // Constructor hidden because this is a singleton
@@ -94,10 +101,17 @@ public class MySingleton {
         return infoText;
     }
 
+    public long getNow(){
+        Time now = new Time();
+        now.setToNow();
+        return now.toMillis(true)/1000;
+    }
 
     public int getOnlyTop2() {
         return onlyTop2;
     }
+
+
 
 
     public int getVorschubGrenze() {

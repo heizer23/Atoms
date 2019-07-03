@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvSourceQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="40"
+        android:text="Ausgangsfrage"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/etCopiedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="NHier der ganze kopierte Text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etDestQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Neue Frage" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Button" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Antwort" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etConnection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Verbidnung" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Button" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="Link" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvRelation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="später" />
+
+        <Button
+            android:id="@+id/buttonSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Switch" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Speichern" />
+</LinearLayout>

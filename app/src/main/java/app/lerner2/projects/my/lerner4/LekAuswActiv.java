@@ -123,18 +123,18 @@ public class LekAuswActiv extends Activity implements View.OnClickListener {
         bSave.setOnClickListener(this);
         act = this;
         setAdapter();
-        listView.setOnItemLongClickListener(onItemLongClickListener);
+      //  listView.setOnItemLongClickListener(onItemLongClickListener);
     }
 
-    AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
-        public boolean onItemLongClick(AdapterView<?> parent, View view,
-                                       int position, long id) {
-            DatabaseEvents dbEvents = new DatabaseEvents(parent.getContext(), act);
-            dbEvents.newTable(datNames[position][0]);
-            finish();
-            return false;
-        }
-    };
+//    AdapterView.OnItemLongClickListener onItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+//        public boolean onItemLongClick(AdapterView<?> parent, View view,
+//                                       int position, long id) {
+//            DatabaseEvents dbEvents = new DatabaseEvents(parent.getContext(), act);
+//            dbEvents.newTable(datNames[position][0]);
+//            finish();
+//            return false;
+//        }
+//    };
 
     public void onClick(View v) {
 

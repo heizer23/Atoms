@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
-import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 
 public class Quizzer extends AppCompatActivity implements View.OnClickListener {
@@ -143,8 +141,9 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     public void onUpdateInfo(){
         MathStuff ms = new MathStuff();
         if (!(actFrage == null)) {
-            tvO1.setText("Next: " + ms.getTimings(actFrage.getNext()));
-            tvO2.setText("Score: " + actFrage.getScore());
+            tvO1.setText("Next: " + ms.getTimingRelative(actFrage.getNext()));
+            long delta = MySingleton.getInstance().getDelta();
+            tvO2.setText("Delta: " + ms.getTimingAbsolute(delta));
 
             int[] statusInfo = dbEvents.getRundenInfo();
             tvu1.setText("C "+statusInfo[0]);
@@ -212,7 +211,8 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case  R.id.action_showtiming:
-                intent = new Intent("lerner.lerner.TIMINGLIST");
+               // intent = new Intent("lerner.lerner.TIMINGLIST");
+                intent = new Intent("lerner.lerner.QUESTIONLINKER");
                 startActivity(intent);
                 break;
             case  R.id.action_extra:

@@ -117,6 +117,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="app.lerner2.projects.my.lerner4.QuestionLinker"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="lerner.lerner.QUESTIONLINKER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name=".MyContentProvider"
             android:authorities="MyContentProvider" >

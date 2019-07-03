@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.ValueCallback;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -17,7 +18,9 @@ import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
 public class SimpleBrowserActiv extends Activity implements View.OnClickListener{
 
     WebView ourBrow;
-    Button butBack;
+    WebSettings webSettings;
+    Button butBack, butSave, butLoad;
+    Button buttConnect;
     EditText etUrl;
     Context myContext;
     private Bundle extras;
@@ -32,6 +35,9 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
         myContext = this;
         ourBrow = findViewById(R.id.wvBrowser);
         butBack = findViewById(R.id.buttonBack);
+        butLoad = findViewById(R.id.buttonLoad);
+        butSave = findViewById(R.id.buttonSave);
+        buttConnect = findViewById(R.id.buttonConnect);
         etUrl = findViewById(R.id.etUrl);
 
         ourBrow.setWebViewClient(new WebViewClient());
@@ -43,22 +49,39 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
         ourBrow.loadUrl(url);
         etUrl.setText(url);
         butBack.setOnClickListener(this);
+        buttConnect.setOnClickListener(this);
+        butSave.setOnClickListener(this);
+        butLoad.setOnClickListener(this);
+        webSettings = ourBrow.getSettings();
+        ourBrow.clearSslPreferences();
+        webSettings.setJavaScriptEnabled(true);
     }
 
 
-    @Override
-    public void onBackPressed() {
-        String url = ourBrow.getUrl();
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("Url",url);
-        setResult(Activity.RESULT_OK,returnIntent);
-        finish();
-    }
+
 
     @Override
     public void onClick(View v) {
-        url = String.valueOf(etUrl.getText());
-        ourBrow.loadUrl(url);
+        switch (v.getId()){
+            case R.id.buttonLoad:
+                url = String.valueOf(etUrl.getText());
+                ourBrow.loadUrl(url);
+                //ourBrow.loadDataWithBaseURL("", url, null, null, "");
+                break;
+            case R.id.buttonConnect:
+                getSelectedText();
+                break;
+            case R.id.buttonSave:
+                String url = ourBrow.getUrl();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("Url",url);
+                setResult(Activity.RESULT_OK,returnIntent);
+                finish();
+                break;
+            case R.id.buttonBack:
+                ourBrow.goBack();
+                break;
+        }
     }
 
     private void getSelectedText(){
@@ -68,7 +91,12 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
                     @Override
                     public void onReceiveValue(String value)
                     {
-                        Toast.makeText(myContext,"Selection: " + value, Toast.LENGTH_SHORT);
+                        String selectionString = value;
+                        Intent intent = new Intent("lerner.lerner.QUESTIONLINKER");
+                        intent.putExtra("sourceId", id);
+                        intent.putExtra("url", url);
+                        intent.putExtra("selectionText", value);
+                        startActivity(intent);
                     }
                 });
     }

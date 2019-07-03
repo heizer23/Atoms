@@ -9,23 +9,26 @@ public class MathStuff {
 
     }
 
-    public String getTimings(long nextTime){
+    public String getTimingRelative(long nextTime){
         Time now = new Time();
         now.setToNow();
         long longNow = now.toMillis(true)/1000;
         long diffSec = (nextTime- longNow);
+        return getTimingAbsolute(diffSec);
+    }
 
-        long years = diffSec / (12*30*60*60*24);
-        diffSec = diffSec % (12*30*60*60*24);
-        long month = diffSec / (30*60*60*24);
-        diffSec = diffSec % (30*60*60*24);
-        long days = diffSec / (60*60*24);
-        diffSec = diffSec % (60*60*24);
-        long hours = diffSec / (60*60);
-        diffSec = diffSec % (60*60);
-        long mins = diffSec / 60;
-        diffSec = diffSec % 60;
-        long secs = diffSec;
+    public String getTimingAbsolute(long seconds){
+        long years = seconds / (12*30*60*60*24);
+        seconds = seconds % (12*30*60*60*24);
+        long month = seconds / (30*60*60*24);
+        seconds = seconds % (30*60*60*24);
+        long days = seconds / (60*60*24);
+        seconds = seconds % (60*60*24);
+        long hours = seconds / (60*60);
+        seconds = seconds % (60*60);
+        long mins = seconds / 60;
+        seconds = seconds % 60;
+        long secs = seconds;
 
         String timeID ="t";
         long timeInt=0;
@@ -50,8 +53,8 @@ public class MathStuff {
         }
 
         return timeInt + timeID;
-
     }
+
 
     public long getVorschubalt(double score, int counter){
      //   double verlaufFaktor = Math.round(score/counter*10)/10.0;

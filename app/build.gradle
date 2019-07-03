@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyPassword 'Apauli23pauli'
+            storeFile file('C:/Users/premm/AndroidStudioProjects/keystore.jks')
+            storePassword 'Apauli23pauli'
+            keyAlias 'key0'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "remmecke.mein.atoms"
@@ -14,12 +22,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

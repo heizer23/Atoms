@@ -94,15 +94,6 @@ public class DatabaseEvents extends DatabaseHelper {
         return fragenId;
     }
 
-    public int[] getCountStats(){
-        Time now = new Time();
-        now.setToNow();
-        long longTemp = now.toMillis(true)/1000;
-        String sqlQuery= "SELECT count(item)as Anzahl FROM events where counter >0 union all SELECT count(item) FROM events where next > %d";
-        sqlQuery = String.format(sqlQuery, longTemp);
-        return getIntsFromSQL(sqlQuery);
-    }
-
     public Cursor getNextEvents(){
         Time now = new Time();
         now.setToNow();
@@ -206,57 +197,18 @@ public class DatabaseEvents extends DatabaseHelper {
         return super.getCursor(TABLE_EVENTS, columnsLektion, whereSQL, order);
     }
 
-    public void newTable(String dateiNamein) {
-        final String dateiName = dateiNamein;
-
-
-        Runnable runnable = new Runnable() {
-            public void run() {
-                Time now = new Time();
-                now.setToNow();
-                double timeStamp = now.toMillis(true) / 1000;
-                open();
-                String tableId = TABLE_EVENTS;
-                Vector<String[]> datenhalter = new Vector<String[]>();
-                try {
-                    File f = new File(Environment.getExternalStorageDirectory()
-                            + "/Quizzer/Lektionen/" + dateiName);
-                    BufferedReader bf = new BufferedReader(
-                            new InputStreamReader(new FileInputStream(f),
-                                    "UTF-8"));
-
-                    String line = "";
-                    while ((line = bf.readLine()) != null) {
-                        String[] splittedLine2 = line.split("::");
-                        datenhalter.add(splittedLine2);
-                    }
-                    bf.close();
-
-
-                    for (int j = 0; j < datenhalter.size(); j++) {
-                        ContentValues initialValues = new ContentValues();
-                        initialValues.put(KEY_DATUM, datenhalter.get(j)[0].trim());
-                        initialValues.put(KEY_ITEM, datenhalter.get(j)[3].trim());
-                        initialValues.put(KEY_INFO, datenhalter.get(j)[2].trim());
-                        initialValues.put(KEY_ORT, datenhalter.get(j)[2].trim());
-                        initialValues.put(KEY_NEXT, 0);
-                        initialValues.put(KEY_COUNTER, -timeStamp);
-                        initialValues.put(KEY_SCORE, 0);
-                        try {
-                            initialValues.put(KEY_ORT, datenhalter.get(j)[1].trim());
-                        } catch (Exception e) {
-                        }
-                        mySQLDB.insert(tableId, null, initialValues);
-                    }
-                } catch (Exception e) {
-                    String dialogText = e.toString();
-                    Log.i("DatDb newTable", dialogText);
-                }
-                close();
-            }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
+    public int makeNewFrage(String item, int datum, String ort) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_ITEM, item);
+        values.put(KEY_DATUM, datum);
+        values.put(KEY_ORT, ort);
+        values.put(KEY_NEXT, MySingleton.getInstance().getNow());
+        values.put(KEY_SCORE, 0);
+        values.put(KEY_COUNTER, 0);
+        addItem(TABLE_EVENTS, values);
+        String sql = "select _id from events order by _id desc limit 1";
+        int[] newID = getIntsFromSQL("select _id from events order by _id desc limit 1");
+        return newID[0];
     }
 
     public int[] getCompares(String relation, int Datum){

@@ -81,7 +81,7 @@ public class TimingListAdapter extends SimpleCursorAdapter {
 
         long nextTime = Long.parseLong(cursor.getString(choices[2]));
         MathStuff Ms = new MathStuff();
-        holder.text3.setText(Ms.getTimings(nextTime));
+        holder.text3.setText(Ms.getTimingRelative(nextTime));
         return (convertView);
     }
 

@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
-
 /**
  * Created by Philip on 07.06.2015.
  */
@@ -54,7 +52,7 @@ public class ItemViewAct extends Activity implements View.OnClickListener{
         ratio = Math.round(ratio*10.0)/10.0;
         tv3.setText(String.format("%s", ratio));
         MathStuff ms  = new MathStuff();
-        tv4.setText(ms.getTimings(actFrage.getNext()));
+        tv4.setText(ms.getTimingRelative(actFrage.getNext()));
     }
 
     private void saveData(){

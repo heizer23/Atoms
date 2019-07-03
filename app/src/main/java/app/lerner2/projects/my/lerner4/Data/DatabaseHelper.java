@@ -4,29 +4,19 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.os.Environment;
-import android.text.format.Time;
-import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Vector;
-
-import app.lerner2.projects.my.lerner4.Data.DatabaseBase;
-import app.lerner2.projects.my.lerner4.MySingleton;
 
 
 public class DatabaseHelper extends DatabaseBase {
 
     public static final String KEY_NEXT = "Next";
     public static final String TABLE_LINKS = "links";
-    public static final String KEY_ERST = "erst";
-    public static final String KEY_ZWEIT = "zweit";
-
+    public static final String KEY_SOURCE = "source";
+    public static final String KEY_DEST = "dest";
+    public static final String KEY_VERBINDUNG = "verbindung";
+    public static final String KEY_LINK = "link";
+    public static final String KEY_COUNTER= "counter";
 
     protected Activity act;
     protected Context ourContext;
@@ -42,37 +32,46 @@ public class DatabaseHelper extends DatabaseBase {
 
     }
 
-    public void linkItems(int erst, int zweit){
+    public void linkItems(int source, int dest){
         open();
         ContentValues values = new ContentValues();
-        values.put("erst", erst);
-        values.put("zweit", zweit);
+        values.put("source", source);
+        values.put("dest", dest);
         addItem("links", values);
         close();
     }
 
-    public int[] getLinks(int erst){
+    public void linkItemsPlus(int source, int dest, String verbindung, String link){
+        open();
+        ContentValues values = new ContentValues();
+        values.put(KEY_SOURCE, source);
+        values.put(KEY_DEST, dest);
+        values.put(KEY_VERBINDUNG, verbindung);
+        values.put(KEY_LINK, link);
+        addItem("links", values);
+        close();
+    }
+
+    public int[] getLinks(int source){
 
         int[] dataResult;
         ArrayList<Integer[]> dataArr = new ArrayList<>();
-        String[] auswahl = {KEY_ERST, KEY_ZWEIT, KEY_NEXT};
+        String[] auswahl = {KEY_SOURCE, KEY_DEST};
 
         open();
 
-        Cursor c = mySQLDB.query(TABLE_LINKS, auswahl, "erst = " + erst, null, null, null, null, null);
+        Cursor c = mySQLDB.query(TABLE_LINKS, auswahl, "source = " + source, null, null, null, null, null);
 
-        int iErst = c.getColumnIndex(KEY_ERST);
-        int iZweit = c.getColumnIndex(KEY_ZWEIT);
-        int iNext = c.getColumnIndex(KEY_NEXT);
+        int iSource = c.getColumnIndex(KEY_SOURCE);
+        int iDest = c.getColumnIndex(KEY_DEST);
 
 
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
                     Integer[] data = new Integer[3];
-                    data[0] = c.getInt(iErst);
-                    data[1] = c.getInt(iZweit);
-                    data[2] = c.getInt(iNext);
+                    data[0] = c.getInt(iSource);
+                    data[1] = c.getInt(iDest);
                     dataArr.add(data);
                 } while (c.moveToNext());
             }
