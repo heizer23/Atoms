@@ -27,6 +27,7 @@ public class FrageDatum {
     private int counter;
     private String url;
     private long lastDate;
+    private long deltaNextLastdate;
     private String status = "unbeantwortet";
     private boolean randomId = false;
     private int[] metaStats;
@@ -70,6 +71,7 @@ public class FrageDatum {
             logic = new LogicMC10(this);
         }
         lastDate = Long.parseLong(values[7]);
+        deltaNextLastdate = next - lastDate;
     }
 
     public FrageDatum(int id, FrageDatum parentFrage) {
@@ -247,5 +249,9 @@ public class FrageDatum {
 
     public boolean isRandomId() {
         return randomId;
+    }
+
+    public long getDeltaNextLastdate() {
+        return deltaNextLastdate;
     }
 }

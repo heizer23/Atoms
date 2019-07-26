@@ -9,15 +9,10 @@ public class MathStuff {
 
     }
 
-    public String getTimingRelative(long nextTime){
-        Time now = new Time();
-        now.setToNow();
-        long longNow = now.toMillis(true)/1000;
-        long diffSec = (nextTime- longNow);
-        return getTimingAbsolute(diffSec);
-    }
 
-    public String getTimingAbsolute(long seconds){
+
+    private long[] getTimingDigits(long seconds){
+        long[] digits = new long[6];
         long years = seconds / (12*30*60*60*24);
         seconds = seconds % (12*30*60*60*24);
         long month = seconds / (30*60*60*24);
@@ -30,30 +25,57 @@ public class MathStuff {
         seconds = seconds % 60;
         long secs = seconds;
 
-        String timeID ="t";
-        long timeInt=0;
-        if (years > 0){
-            timeInt = years;
-            timeID = " y";
-        }else if(month > 0){
-            timeInt = month;
-            timeID = " m";
-        }else if(days > 0){
-            timeInt = days;
-            timeID = " d";
-        }else if(hours > 0){
-            timeInt = hours;
-            timeID = " h";
-        }else if(mins > 0){
-            timeInt = mins;
-            timeID = " m";
-        }else{
-            timeInt = secs;
-            timeID = " s";
+        digits[0] = years;
+        digits[1] = month;
+        digits[2] = days;
+        digits[3] = hours;
+        digits[4] = mins;
+        digits[5] = secs;
+
+        return digits;
+    }
+
+    public long[] getTimingRelativeDigits(long nextTime){
+        Time now = new Time();
+        now.setToNow();
+        long longNow = now.toMillis(true)/1000;
+        long diffSec = (nextTime- longNow);
+        return getTimingDigits(diffSec);
+    }
+
+    public String getTimingRelative(long nextTime){
+        Time now = new Time();
+        now.setToNow();
+        long longNow = now.toMillis(true)/1000;
+        long diffSec = (nextTime- longNow);
+        return getTimingAbsolute(diffSec);
+    }
+
+    public String getTimingAbsolute(long seconds){
+        long[] digits = getTimingDigits(seconds);
+        String[] periode = {"y ", "m ", "d ", "h ", "m ", "s " };
+        String actualPeriode1 = "nn";
+        long time1 = 0;
+        String actualPeriode2 = "nn";
+        long time2 = 0;
+        String result = "";
+
+        for(int i = 0; i<6; i++){
+            if(digits[i]>0 && i<5){
+                actualPeriode1 = periode[i];
+                time1 = digits[i];
+                actualPeriode2 = periode[i+1];
+                time2 = digits[i];
+                i = 1000;
+                result = actualPeriode1 + time1 +", " + actualPeriode2 + time2;
+            }else{
+                actualPeriode1 = periode[i];
+                time1 = digits[i];
+                result = actualPeriode1 + time1;
+            }
         }
 
-        return month + " m, " + days + " d, " + hours + " h, " + mins + " m";
-        // return timeInt + timeID;
+        return result;
     }
 
 

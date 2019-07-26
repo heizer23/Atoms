@@ -21,6 +21,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvO1;
     private TextView tvO2;
+    private TextView tvO3;
     private TextView tvu1;
     private TextView tvu2;
     private TextView tvu3;
@@ -49,6 +50,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
         tvO1 = findViewById(R.id.tv_o1);
         tvO2 = findViewById(R.id.tv_o2);
+        tvO3 = findViewById(R.id.tv_o3);
         tvu1 = findViewById(R.id.tv_u1);
         tvu2 = findViewById(R.id.tv_u2);
         tvu3 = findViewById(R.id.tv_u3);
@@ -89,6 +91,9 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         actFrage = new FrageDatum(this, this, null);
         tvFrage.setText(actFrage.logic.getQuestion());
         setGui();
+        MathStuff ms = new MathStuff();
+        String oldDelta = ms.getTimingAbsolute(actFrage.getDeltaNextLastdate());
+        tvO1.setText("Old:   " + oldDelta);
     }
 
     private void setGui(){
@@ -142,10 +147,12 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
         if (!(actFrage == null)) {
             MathStuff ms = new MathStuff();
 
-            tvO1.setText("Next: " + ms.getTimingRelative(actFrage.getNext()));
+            String newDetla = ms.getTimingRelative(actFrage.getNext());
+            String totalDelta = ms.getTimingAbsolute(dbEvents.getTotalVorschub());
+
+            tvO2.setText("New:  " + newDetla);
             // long delta = MySingleton.getInstance().getDelta();
-            long delta = dbEvents.getTotalVorschub();
-            tvO2.setText("Delta: " + ms.getTimingAbsolute(delta));
+            tvO3.setText("Delta: " + totalDelta);
             int[] statusInfo = actFrage.getActHistogram();
             tvu1.setText("C "+statusInfo[0]);
             tvu2.setText("s "+statusInfo[1]);

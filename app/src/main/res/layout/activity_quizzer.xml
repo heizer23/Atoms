@@ -19,7 +19,7 @@
     android:id="@+id/linlay_info_top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
        android:layout_below="@+id/view1">
 
     <TextView
@@ -36,6 +36,12 @@
         android:text="@string/text_vorschub"
         android:layout_weight="1"/>
 
+       <TextView
+           android:id="@+id/tv_o3"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/text_vorschub"
+           android:layout_weight="1"/>
 
 </LinearLayout>
 
