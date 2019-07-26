@@ -52,6 +52,47 @@ public class DatabaseHelper extends DatabaseBase {
         close();
     }
 
+    public int[] getLinkIdsForQuestion(int questionId){
+        int result[];
+        String sql = "select dest as id from links where source = %d " +
+                " UNION " +
+                "select source as id from links where dest = %d";
+
+        sql = String.format(sql, questionId, questionId);
+        open();
+        result = getIntsFromSQL(sql);
+        close();
+        return result;
+    }
+
+    public void deleteDeletedLinksHack(){
+        String sql = "SELECT l._id\n" +
+                "  FROM links l\n" +
+                " WHERE NOT EXISTS (SELECT NULL \n" +
+                "                     FROM Events e\n" +
+                "                    WHERE l.source = e._id)\n" +
+                "union\n" +
+                "SELECT l._id\n" +
+                "  FROM links l\n" +
+                " WHERE NOT EXISTS (SELECT NULL \n" +
+                "                     FROM Events e\n" +
+                "                    WHERE l.dest = e._id)";
+
+        int[] ids = getIntsFromSQL(sql);
+
+        for(int id : ids){
+            deleteLinks(id);
+        }
+
+    }
+
+    private void deleteLinks(int id){
+        String sql = "DELETE FROM links where _id = %d";
+        sql = String.format(sql, id);
+        runSQL(sql);
+    }
+
+
     public int[] getLinks(int source){
 
         int[] dataResult;

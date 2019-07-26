@@ -78,19 +78,19 @@ public class OverviewActivity extends ListActivity implements
         setContentView(R.layout.overview);
         // requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        spinnerRechts = (Spinner) findViewById(R.id.spinnerRechts);
+        spinnerRechts = findViewById(R.id.spinnerRechts);
         spinnerRechts.getBaseline();
         res = getResources();
-        ListView listView =  (ListView) findViewById(android.R.id.list);
+        ListView listView = findViewById(android.R.id.list);
         listView.setDividerHeight(2);
 
         registerForContextMenu(listView);
 
         dbEvents = new DatabaseEvents(this, this);
         dbEvents.open();
-        spinnerMitte = (Spinner) findViewById(R.id.spinnerMitte);
-        spinnerLinks = (Spinner) findViewById(R.id.spinnerLinks);
-        etNameOrInfo = (EditText) findViewById(R.id.etNameOrInfo);
+        spinnerMitte =  findViewById(R.id.spinnerMitte);
+        spinnerLinks =  findViewById(R.id.spinnerLinks);
+        etNameOrInfo =  findViewById(R.id.etNameOrInfo);
 
         String itemVorwahl = dbEvents.getItemSQL("_id = " + chosenId, null)[1];
         etNameOrInfo.setText(itemVorwahl);
@@ -107,9 +107,9 @@ public class OverviewActivity extends ListActivity implements
         spinnerMitte.setOnItemSelectedListener(this);
         spinnerLinks.setOnItemSelectedListener(this);
         List<String> list = new ArrayList<String>();
+        list.add("Datum");
         list.add("Next");
         list.add("Score");
-        list.add("Datum");
         list.add("_id");
         list.add("Counter");
         List<String> listMitte = new ArrayList<String>();
@@ -246,7 +246,7 @@ public class OverviewActivity extends ListActivity implements
 
     private void fillDataIds(String fragenIds) {
         dbEvents.open();
-        cursor = dbEvents.getCursor(fragenIds, "Next");
+        cursor = dbEvents.getCursor(fragenIds, "Datum");
         Toast.makeText(this.getApplicationContext(), "COUNT: " + cursor.getCount(),
                 Toast.LENGTH_LONG).show();
         dbEvents.close();

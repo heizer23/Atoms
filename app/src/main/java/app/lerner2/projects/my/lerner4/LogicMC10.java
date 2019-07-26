@@ -7,16 +7,50 @@ public class LogicMC10 implements Logic{
     private int rahmen= 1000;
 
     private FrageDatum actFrage;
+    private boolean hasLinkedFrage = false;
+    private FrageDatum linkedFrage;
 
     public LogicMC10(FrageDatum actFrage) {
         this.actFrage = actFrage;
+        setLinkedFrage();
         eingrenzungen = 3;
         rahmen= 1000;
+        if (actFrage.getDatum() > 1900) {
+            rahmen = 100;
+            eingrenzungen = 2;
+        }
     }
 
     public String getQuestion(){
-        return actFrage.getItem();
+        String question;
+
+        if(actFrage.getScore() == 0 && hasLinkedFrage){
+            int datumsDelta = actFrage.getDatum()-linkedFrage.getDatum();
+            question = actFrage.getItem() + "\n \n Hinweis: \n" + linkedFrage.getItem() +"\n" + datumsDelta;
+        }else if(!hasLinkedFrage) {
+            question = actFrage.getItem() + "\n \n keine verlinkte Frage";
+        }else{
+            question = actFrage.getItem();
+        }
+
+        return question + " " + actFrage.isRandomId();
     }
+
+    private void setLinkedFrage(){
+        //todo links zu gelöschten fragen irgenwie löschen
+        int linkedId = actFrage.getLinkedQuestion();
+        if(linkedId > 0){
+            try {
+                hasLinkedFrage = true;
+                linkedFrage = new FrageDatum(linkedId, actFrage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
     public String[] getButtonTexts() {
         int[] wert = new int[12];
         int multi;
@@ -24,10 +58,7 @@ public class LogicMC10 implements Logic{
         int maximum;
         int datumStart;
         int datum = actFrage.getDatum();
-        if (datum > 1900) {
-            rahmen = 100;
-            eingrenzungen = 2;
-        }
+
         String[] buttTextsSorted = new String[10];
 
         datumStart = 0;
@@ -96,7 +127,7 @@ public class LogicMC10 implements Logic{
 
         if (lowestDate == actFrage.getDatum()){
             actFrage.calcResults(true);
-            actFrage.setFeedbackString("" + actFrage.getDatum() + "  ist korrekt");
+            actFrage.setFeedbackString("" + actFrage.getDatum() + "  ist korrekt S: " +actFrage.getScore());
         }else{
             actFrage.calcResults(false);
             actFrage.setFeedbackString("" + lowestDate + "  ist falsch - Es wäre " + actFrage.getDatum() + " gewesen");

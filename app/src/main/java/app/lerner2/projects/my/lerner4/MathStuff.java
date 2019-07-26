@@ -52,7 +52,8 @@ public class MathStuff {
             timeID = " s";
         }
 
-        return timeInt + timeID;
+        return month + " m, " + days + " d, " + hours + " h, " + mins + " m";
+        // return timeInt + timeID;
     }
 
 

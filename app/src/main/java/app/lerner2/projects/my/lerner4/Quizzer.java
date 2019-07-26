@@ -139,13 +139,14 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void onUpdateInfo(){
-        MathStuff ms = new MathStuff();
         if (!(actFrage == null)) {
-            tvO1.setText("Next: " + ms.getTimingRelative(actFrage.getNext()));
-            long delta = MySingleton.getInstance().getDelta();
-            tvO2.setText("Delta: " + ms.getTimingAbsolute(delta));
+            MathStuff ms = new MathStuff();
 
-            int[] statusInfo = dbEvents.getRundenInfo();
+            tvO1.setText("Next: " + ms.getTimingRelative(actFrage.getNext()));
+            // long delta = MySingleton.getInstance().getDelta();
+            long delta = dbEvents.getTotalVorschub();
+            tvO2.setText("Delta: " + ms.getTimingAbsolute(delta));
+            int[] statusInfo = actFrage.getActHistogram();
             tvu1.setText("C "+statusInfo[0]);
             tvu2.setText("s "+statusInfo[1]);
             tvu3.setText("m "+statusInfo[2]);
@@ -211,8 +212,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case  R.id.action_showtiming:
-               // intent = new Intent("lerner.lerner.TIMINGLIST");
-                intent = new Intent("lerner.lerner.QUESTIONLINKER");
+                intent = new Intent("lerner.lerner.TIMINGLIST");
                 startActivity(intent);
                 break;
             case  R.id.action_extra:

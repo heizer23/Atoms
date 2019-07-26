@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 import app.lerner2.projects.my.lerner4.Data.DatabaseRunden;
 
 public class FrageDatum {
@@ -27,9 +28,11 @@ public class FrageDatum {
     private String url;
     private long lastDate;
     private String status = "unbeantwortet";
+    private boolean randomId = false;
     private int[] metaStats;
     private String feedbackString;
     private String frageModus = "compare";
+    private int[] actHistogram;
     public Logic logic;
 
 
@@ -38,9 +41,13 @@ public class FrageDatum {
         this.act = act;
         dbEvents = new DatabaseEvents(c,act);
         dbRunden = new DatabaseRunden(c, act);
+        actHistogram  = dbEvents.getRundenInfo();
         dbEvents.open();
+        // wird eine speziefische Frage aufgerufen bsp von ItemViewAct?
         if (idFrage == null){
-            this.id = dbEvents.nextFrage();
+            double randDouble = Math.random();
+            randomId = (actHistogram[0]<1) && (randDouble > 0.8);
+            this.id = dbEvents.nextFrage(randomId);
         }else{
             this.id = idFrage;
         }
@@ -66,6 +73,7 @@ public class FrageDatum {
     }
 
     public FrageDatum(int id, FrageDatum parentFrage) {
+        //todo brauche ich hier parentFrage?
         dbEvents = new DatabaseEvents(parentFrage.getC(),parentFrage.getAct());
         dbEvents.open();
         String[] values = dbEvents.getFrageInfos(id);
@@ -97,6 +105,17 @@ public class FrageDatum {
         return results;
     }
 
+    public int getLinkedQuestion(){
+        int[] idArray;
+        int result =-1;
+        DatabaseHelper dbHelper = new DatabaseHelper(c,act);
+        idArray = dbHelper.getLinkIdsForQuestion(id);
+        if(idArray.length>0){
+            result = idArray[0];
+        }
+        return result;
+    }
+
     public void calcResults(boolean richtig){
         Time time = new Time();
         time.setToNow();
@@ -105,17 +124,24 @@ public class FrageDatum {
         MathStuff Ms = new MathStuff();
         long vorschub;
         if(richtig){
-            status = "richtig";
-            score = score+1;
+            if(!randomId){
+                 score = score+1;
+            }
+
             if(counter == 0){
-                vorschub = 60*60*24;
+                vorschub = 60*60;
                 delta = vorschub;
             }else{
-                vorschub = (now - lastDate) * MySingleton.getInstance().getVorschubLin();
+                if(randomId){
+                    vorschub = next - lastDate;
+                }else{
+                    double wissensQuotient = score+((score+1)/(counter+5));
+                    long timeDelta = now - lastDate;
+                    vorschub = timeDelta+ (long)score* MySingleton.getInstance().getVorschubLin();
+                }
                 delta = vorschub;
             }
         }else{
-            status = "falsch";
             score = 0;
             if(counter == 0){
                 delta = 0;
@@ -126,8 +152,14 @@ public class FrageDatum {
         }
         counter = counter+1;
 
+        if(status.equals("unbeantwortet")){
+            next = now + vorschub;
+        }else if(status.equals("eingeschoben")){
+           // next = next;
+            vorschub = -vorschub;
+        }
+
         MySingleton.getInstance().setDelta(delta);
-        next = now + vorschub;
         dbEvents.saveResults(id, score, next,now, url, counter);
         dbRunden.addRound(id, vorschub,score);
     }
@@ -207,5 +239,13 @@ public class FrageDatum {
 
     public Activity getAct() {
         return act;
+    }
+
+    public int[] getActHistogram() {
+        return actHistogram;
+    }
+
+    public boolean isRandomId() {
+        return randomId;
     }
 }

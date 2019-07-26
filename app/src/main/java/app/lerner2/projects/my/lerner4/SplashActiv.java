@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import app.lerner2.projects.my.lerner4.Data.DatabaseEvents;
+import app.lerner2.projects.my.lerner4.Data.DatabaseHelper;
 
 
 public class SplashActiv extends Activity {
@@ -56,6 +57,10 @@ public class SplashActiv extends Activity {
                 }
                 switch (activityId) {
                     case 1:
+                        //todo mach das besser
+                        DatabaseHelper dbh = new DatabaseHelper(ourContext, act);
+                        dbh.deleteDeletedLinksHack();
+
                       //  dbEvents.checkDB();
                         dbEvents.open();
                         MySingleton.getInstance().setCount(dbEvents.getCount());

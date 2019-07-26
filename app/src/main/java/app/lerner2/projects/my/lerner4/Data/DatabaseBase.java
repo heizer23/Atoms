@@ -236,6 +236,24 @@ public class DatabaseBase {
 		return result;
 	}
 
+	public long[] getLongsFromSQL(String sqlQuery){
+		long[] result = null;
+		ourHelper = new DbHelper(ourContext);
+		mySQLDB = ourHelper.getWritableDatabase();
+		Cursor cursor = mySQLDB.rawQuery(sqlQuery, null);
+		result = new long[cursor.getCount()];
+		cursor.moveToFirst();
+		int i = 0;
+		while(!cursor.isAfterLast()) {
+			result[i] = cursor.getInt(0);
+			i=i+1;
+			cursor.moveToNext();
+		}
+		mySQLDB.close();
+		return result;
+	}
+
+
 	public void runSQL(String sqlString){
 		try {
 			open();

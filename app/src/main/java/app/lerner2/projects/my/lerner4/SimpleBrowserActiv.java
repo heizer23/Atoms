@@ -55,7 +55,22 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
         webSettings = ourBrow.getSettings();
         ourBrow.clearSslPreferences();
         webSettings.setJavaScriptEnabled(true);
+
+        ourBrow.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                try {
+                   etUrl.setText(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+        });
     }
+
+
+
 
 
 
@@ -66,6 +81,7 @@ public class SimpleBrowserActiv extends Activity implements View.OnClickListener
             case R.id.buttonLoad:
                 url = String.valueOf(etUrl.getText());
                 ourBrow.loadUrl(url);
+
                 //ourBrow.loadDataWithBaseURL("", url, null, null, "");
                 break;
             case R.id.buttonConnect:

@@ -54,7 +54,7 @@ public class DatabaseEvents extends DatabaseHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_SCORE, score);
-        values.put(KEY_LASTDATE, longTemp);
+     //   values.put(KEY_LASTDATE, longTemp);
         values.put(KEY_NEXT, next);
         values.put(KEY_COUNTER, counter);
         values.put(KEY_LASTDATE, last);
@@ -79,7 +79,7 @@ public class DatabaseEvents extends DatabaseHelper {
         close();
     }
 
-    public int nextFrage(){
+    public int nextFrage(boolean random){
         Time now = new Time();
         now.setToNow();
         long longTemp = now.toMillis(true)/1000;
@@ -87,12 +87,32 @@ public class DatabaseEvents extends DatabaseHelper {
         // select fragenId, (timestamp+vorschub) as nextTime from rounds where nextTime < 1562461490 order by nextTime desc
 
         String sqlString = String.format("Select _id from Events where next < %d order by next desc", longTemp);
+
+        if(random){
+            sqlString = "SELECT _id  FROM Events where Next > 1000 ORDER BY RANDOM() LIMIT 1";
+        }
+
         Cursor cursor = mySQLDB.rawQuery(sqlString, null);
         int iFragenId = cursor.getColumnIndex("_id");
         cursor.moveToFirst();
         int fragenId = cursor.getInt(iFragenId);
         return fragenId;
     }
+
+    public long getTotalVorschub(){
+        Time now = new Time();
+        now.setToNow();
+        long jetzt = now.toMillis(true)/1000;
+
+        String sql = "SELECT sum (next - %d) as dt FROM Events where (next - %d) > 0";
+        sql = String.format(sql, jetzt, jetzt);
+        long totalVorschubLong;
+        totalVorschubLong = getLongsFromSQL(sql)[0];
+
+        return totalVorschubLong;
+
+    }
+
 
     public Cursor getNextEvents(){
         Time now = new Time();
