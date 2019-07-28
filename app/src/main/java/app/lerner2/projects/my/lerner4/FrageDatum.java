@@ -71,7 +71,9 @@ public class FrageDatum {
             logic = new LogicMC10(this);
         }
         lastDate = Long.parseLong(values[7]);
-        deltaNextLastdate = next - lastDate;
+       // deltaNextLastdate = next - lastDate;
+        deltaNextLastdate = MySingleton.getInstance().getNow()- lastDate;
+
     }
 
     public FrageDatum(int id, FrageDatum parentFrage) {

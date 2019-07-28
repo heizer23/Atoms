@@ -3,6 +3,7 @@ package app.lerner2.projects.my.lerner4;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -19,15 +20,37 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
-    private TextView tvO1;
-    private TextView tvO2;
-    private TextView tvO3;
+    private TextView tvt1;
+    private TextView tvt2;
+    private TextView tvt3;
+    private TextView tvt4;
+    private TextView tvt5;
+    private TextView tvt6;
+    private TextView tvt7;
+
+    private TextView tvm1;
+    private TextView tvm2;
+    private TextView tvm3;
+    private TextView tvm4;
+    private TextView tvm5;
+    private TextView tvm6;
+    private TextView tvm7;
+
+    private TextView tvmb1;
+    private TextView tvmb2;
+    private TextView tvmb3;
+    private TextView tvmb4;
+    private TextView tvmb5;
+    private TextView tvmb6;
+    private TextView tvmb7;
+
     private TextView tvu1;
     private TextView tvu2;
     private TextView tvu3;
     private TextView tvu4;
     private TextView tvu5;
     private TextView tvu6;
+    private TextView tvu7;
 
     private TextView tvFrage;
     private TextView tvInfo;
@@ -43,20 +66,55 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseEvents dbEvents;
 
+    long[] oldPotential;
+    long[] actPotential;
+    long[] oldPunkte;
+    long[] actPunkte;
+    long[] oldTotal;
+    long oldTotalLong;
+    long[] actTotal;
+    int[] oldStatus;
+    int[] actStatus;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizzer);
 
-        tvO1 = findViewById(R.id.tv_o1);
-        tvO2 = findViewById(R.id.tv_o2);
-        tvO3 = findViewById(R.id.tv_o3);
+
+        tvt1 = findViewById(R.id.tv_t1);
+        tvt2 = findViewById(R.id.tv_t2);
+        tvt3 = findViewById(R.id.tv_t3);
+        tvt4 = findViewById(R.id.tv_t4);
+        tvt5 = findViewById(R.id.tv_t5);
+        tvt6 = findViewById(R.id.tv_t6);
+        tvt7 = findViewById(R.id.tv_t7);
+
+        tvm1 = findViewById(R.id.tv_m1);
+        tvm2 = findViewById(R.id.tv_m2);
+        tvm3 = findViewById(R.id.tv_m3);
+        tvm4 = findViewById(R.id.tv_m4);
+        tvm5 = findViewById(R.id.tv_m5);
+        tvm6 = findViewById(R.id.tv_m6);
+        tvm7 = findViewById(R.id.tv_m7);
+
+        tvmb1 = findViewById(R.id.tv_mb1);
+        tvmb2 = findViewById(R.id.tv_mb2);
+        tvmb3 = findViewById(R.id.tv_mb3);
+        tvmb4 = findViewById(R.id.tv_mb4);
+        tvmb5 = findViewById(R.id.tv_mb5);
+        tvmb6 = findViewById(R.id.tv_mb6);
+        tvmb7 = findViewById(R.id.tv_mb7);
+
         tvu1 = findViewById(R.id.tv_u1);
         tvu2 = findViewById(R.id.tv_u2);
         tvu3 = findViewById(R.id.tv_u3);
         tvu4 = findViewById(R.id.tv_u4);
         tvu5 = findViewById(R.id.tv_u5);
         tvu6 = findViewById(R.id.tv_u6);
+        tvu7 = findViewById(R.id.tv_u7);
 
         act = this;
         ourContext = this ;
@@ -84,16 +142,26 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
             bChoice[i].setOnClickListener(this);
         }
         tvFrage.setOnClickListener(this);
+        oldTotalLong = dbEvents.getTotalVorschub();
         neueFrage();
     }
 
     public void neueFrage(){
+        oldPotential = actPotential;
+        oldPunkte = actPunkte;
+     //   oldTotal = actTotal;
+        oldStatus = actStatus;
+
         actFrage = new FrageDatum(this, this, null);
         tvFrage.setText(actFrage.logic.getQuestion());
         setGui();
         MathStuff ms = new MathStuff();
-        String oldDelta = ms.getTimingAbsolute(actFrage.getDeltaNextLastdate());
-        tvO1.setText("Old:   " + oldDelta);
+        oldTotal = ms.getTimingDigits(oldTotalLong);
+        actPotential = ms.getTimingDigits(actFrage.getDeltaNextLastdate());
+
+        GameMech gMech = new GameMech();
+        long i = gMech.getTagesPunkte();
+        i = i+1;
     }
 
     private void setGui(){
@@ -129,6 +197,7 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
             setUpButtons();
         } else{
             actFrage.logic.checkAnswer(sButtText);
+
             onUpdateInfo();
             neueFrage();
         }
@@ -145,24 +214,113 @@ public class Quizzer extends AppCompatActivity implements View.OnClickListener {
 
     public void onUpdateInfo(){
         if (!(actFrage == null)) {
+
+
+//            long[] oldDetla = ms.getTimingRelative(actFrage.getNext());
+//            long[] totalDelta = ms.getTimingAbsolute(dbEvents.getTotalVorschub());
+
             MathStuff ms = new MathStuff();
+            actPunkte = ms.getTimingRelativeDigits(actFrage.getNext());
+            actTotal = ms.getTimingDigits(dbEvents.getTotalVorschub());
+            actStatus = actFrage.getActHistogram();
 
-            String newDetla = ms.getTimingRelative(actFrage.getNext());
-            String totalDelta = ms.getTimingAbsolute(dbEvents.getTotalVorschub());
 
-            tvO2.setText("New:  " + newDetla);
-            // long delta = MySingleton.getInstance().getDelta();
-            tvO3.setText("Delta: " + totalDelta);
-            int[] statusInfo = actFrage.getActHistogram();
-            tvu1.setText("C "+statusInfo[0]);
-            tvu2.setText("s "+statusInfo[1]);
-            tvu3.setText("m "+statusInfo[2]);
-            tvu4.setText("h "+statusInfo[3]);
-            tvu5.setText("d "+statusInfo[4]);
-            tvu6.setText("m "+statusInfo[5]);
+            tvt1.setText("Pot: ");
+            tvt2.setText(actPotential[0] +"");
+            tvt3.setText(actPotential[1] +"");
+            tvt4.setText(actPotential[2] +"");
+            tvt5.setText(actPotential[3] +"");
+            tvt6.setText(actPotential[4] +"");
+            tvt7.setText(actPotential[5] +"");
+
+
+            tvm1.setText("Punkte");
+            tvm2.setText(actPunkte[0] +"");
+            tvm3.setText(actPunkte[1] +"");
+            tvm4.setText(actPunkte[2] +"");
+            tvm5.setText(actPunkte[3] +"");
+            tvm6.setText(actPunkte[4] +"");
+            tvm7.setText(actPunkte[5] +"");
+
+            tvmb1.setText("Total");
+            tvmb2.setText(actTotal[0] +"");
+            tvmb3.setText(actTotal[1] +"");
+            tvmb4.setText(actTotal[2] +"");
+            tvmb5.setText(actTotal[3] +"");
+            tvmb6.setText(actTotal[4] +"");
+            tvmb7.setText(actTotal[5] +"");
+
+            tvu1.setText("(" + actStatus[0] +")");
+            tvu7.setText(actStatus[1] +"");
+            tvu6.setText(actStatus[2] +"");
+            tvu5.setText(actStatus[3] +"");
+            tvu4.setText(actStatus[4] +"");
+            tvu3.setText(actStatus[5] +"");
+            tvu2.setText(actStatus[6] +"");
+
+
+            if(!(oldTotal == null)){
+
+                int[][] colorArray = getBackgroundColor(oldTotal, actTotal);
+
+                int[] color = colorArray[0];
+                tvmb2.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+                color = colorArray[1];
+                tvmb3.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+                color = colorArray[2];
+                tvmb4.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+                color = colorArray[3];
+                tvmb5.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+                color = colorArray[4];
+                tvmb6.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+                color = colorArray[5];
+                tvmb7.setBackgroundColor(Color.argb(color[0], color[1],color[2],color[3]));
+            }
 
             tvInfo.setText(actFrage.getFeedbackString());
         }
+    }
+
+
+    private int[][] getBackgroundColor(long[] old, long[] act){
+
+        int length = act.length;
+        int[][] result  = new int[length][length];
+        int[] timeframe = {5, 12, 30, 24, 60, 60};
+
+        long delta;
+        int alpha;
+        int red;
+        int green;
+        int blue;
+
+        for(int i = 0; i<length; i++){
+            delta = act[i] - old[i];
+
+
+            if(delta<0){
+                alpha =  255+ (int)(((double)delta/ timeframe[i])*200);
+                red = 250;
+                green = 0;
+            }else if(delta>0){
+
+                alpha =  255- (int)(((double)delta/ timeframe[i])*200);
+
+                red = 0;
+                green = 100;
+            }else{
+                red = 0;
+                green = 0;
+                alpha = 0;
+            }
+
+
+
+            blue = 0;
+            int[] color = {alpha, red, green, blue};
+            result[i] =  color;
+        }
+        return result;
     }
 
     private void startBrowser() {

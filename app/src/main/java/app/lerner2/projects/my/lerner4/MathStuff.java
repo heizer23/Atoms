@@ -11,7 +11,7 @@ public class MathStuff {
 
 
 
-    private long[] getTimingDigits(long seconds){
+    public long[] getTimingDigits(long seconds){
         long[] digits = new long[6];
         long years = seconds / (12*30*60*60*24);
         seconds = seconds % (12*30*60*60*24);

@@ -33,6 +33,7 @@ public class MySingleton {
     private int onlyBottom2 = 0;
     private int vorschubGrenze = 10;
     private long delta = 0;
+    private Time now = new Time();
     private Vector<String[]> sqlQueries = new Vector<String[]>();
 
     public String vorschubText = "";
@@ -101,11 +102,6 @@ public class MySingleton {
         return infoText;
     }
 
-    public long getNow(){
-        Time now = new Time();
-        now.setToNow();
-        return now.toMillis(true)/1000;
-    }
 
     public int getOnlyTop2() {
         return onlyTop2;
@@ -223,6 +219,15 @@ public class MySingleton {
     public void addRundeGlobal() {
         rundeGlob = rundeGlob + 1;
     }
+
+
+    public long getNow(){
+        long actTime;
+        now.setToNow();
+        actTime = now.toMillis(true)  /1000;
+        return actTime;
+    }
+
 
     public void saveConfiguration() {
         try {
